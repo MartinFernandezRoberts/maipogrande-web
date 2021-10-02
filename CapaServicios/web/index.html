@@ -1,16 +1,48 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>MaipoGrande - Venta local y Exportaciones de Fruta.</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     </head>
     <body>
-        <div>TODO write content</div>
+        <div class="flex min-h-screen">
+        <!-- Nav -->
+        <div
+          class="flex flex-wrap justify-between w-screen h-20 text-white bg-black md:flex-nowrap"
+        >
+          <!-- Logo -->
+          <div class="z-30 flex items-center h-full pl-3 space-x-3 bg-black">
+                <img src="https://img.icons8.com/external-justicon-flat-justicon/50/000000/external-fruit-thanksgiving-justicon-flat-justicon.png" alt='MaipoGrande'/>
+            <p class="text-2xl text-">Maipo Grande</p>
+          </div>
+
+          <!-- Menu -->
+          <div
+            class="flex flex-col items-stretch w-screen text-xl text-center transform bg-black md:flex-row md:translate-y-0 md:space-x-5 md:items-center md:justify-end md:pr-3">
+            <a
+              href="/CapaServicios/"
+              class="h-10 leading-10 border-b-2 border-dotted md:border-none">
+                Inicio
+            </a>
+            <a
+              href="#Nosotros"
+              class="h-10 leading-10 border-b-2 border-dotted md:border-none">
+                Sobre Nosotrxs
+            </a>
+            <a
+              href="#Servicios"
+              class="h-10 leading-10 border-b-2 border-dotted md:border-none">
+                Servicios
+            </a>
+            <a
+              href="/CapaServicios/login.html"
+              class="h-10 leading-10 border-b-2 border-dotted md:border-none md:bg-red-600 md:rounded-full md:w-24">
+                Acceso
+            </a>
+          </div>
+        </div>
+      </div>
     </body>
 </html>

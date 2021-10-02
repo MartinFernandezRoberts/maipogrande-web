@@ -3,7 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/github/maipo-grande/maipogrande-web/CapaServicios/src/java/GUI/PantallaConsultaCliente.java</file>
+            <file>file:/C:/github/maipo-grande/maipogrande-web/CapaServicios/src/java/GUI/PantallaIngresoCliente.java</file>
+            <file>file:/C:/github/maipo-grande/maipogrande-web/CapaServicios/web/login.html</file>
+            <file>file:/C:/github/maipo-grande/maipogrande-web/CapaServicios/src/java/DTO/Cliente.java</file>
+            <file>file:/C:/github/maipo-grande/maipogrande-web/CapaServicios/src/java/Conexion/Conexion.java</file>
             <file>file:/C:/github/maipo-grande/maipogrande-web/CapaServicios/web/index.html</file>
+            <file>file:/C:/github/maipo-grande/maipogrande-web/CapaServicios/web/WEB-INF/web.xml</file>
+            <file>file:/C:/github/maipo-grande/maipogrande-web/CapaServicios/src/java/Negocio/Negocio.java</file>
         </group>
     </open-files>
 </project-private>

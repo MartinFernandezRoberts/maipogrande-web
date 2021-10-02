@@ -7,7 +7,7 @@ package GUI;
 import Negocio.*;
 import DTO.*;
 import javax.swing.JOptionPane;
-import servicios.webServiceCliente;
+//import servicios.webServiceCliente;
 
  
 /**
@@ -111,7 +111,7 @@ public class PantallaIngresoCliente extends javax.swing.JFrame {
     private void btoGrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btoGrabarActionPerformed
         // TODO add your handling code here:
         
-        try
+/*        try
         {
             webServiceCliente auxServicio = new webServiceCliente();
             
@@ -127,6 +127,7 @@ public class PantallaIngresoCliente extends javax.swing.JFrame {
         {
           JOptionPane.showMessageDialog(null, "Datos no grabados " + ex.getMessage());
         }
+*/        
     }//GEN-LAST:event_btoGrabarActionPerformed
 
     /**
