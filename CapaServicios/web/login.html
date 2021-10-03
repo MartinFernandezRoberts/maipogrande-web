@@ -5,30 +5,96 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <html>
-    <head>
-        <title>Login</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-    </head>
-    <body>
-        <div class="flex h-screen" style="background-image: url('https://previews.123rf.com/images/tribalium123/tribalium1231308/tribalium123130800008/21892970-seamless-pattern-with-fruit-fruits-background-seamless-fruits-pattern-fruits-seamless-background-app.jpg');">
-            <div class="m-auto">
-              <div class="p-8 shadow-lg rounded-xl text-center bg-white">
-                <svg xmlns="http://www.w3.org/2000/svg" class="inline text-cyan-600 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-                <h1 class="text-3xl font-bold text-cyan-500">Ingresar</h1>
-                <h3 class="text-1xl font-semibold text-gray-500">Entre en su cuenta!</h3>
-                <div class="text-left pt-3">
-                    <input type="text" placeholder="Rut" class="p-1 rounded-lg bg-gray-100 shadow-md focus:outline-none focus:border-2 border-cyan-500"/>
-                    <input type="password" placeholder="Contraseña" class="block p-1 mt-3 rounded-lg bg-gray-100 shadow-md focus:outline-none focus:border-2 border-cyan-500" />
-                    <a class="text-sm text-cyan-600 underline">¿Olvidó su contraseña?</a>
-                </div>
-                <button type="submit" class="bg-cyan-200 p-2 pr-5 pl-5 text-gray-800 font-semibold rounded-xl border-cyan-700 focus:ring-2 m-4">Ingresar</button>
-              </div>
-            </div>
+  <head>
+    <title>Login</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div
+      class="flex h-screen"
+      style="
+        background-image: url('https://previews.123rf.com/images/tribalium123/tribalium1231308/tribalium123130800008/21892970-seamless-pattern-with-fruit-fruits-background-seamless-fruits-pattern-fruits-seamless-background-app.jpg');
+      "
+    >
+      <div class="m-auto">
+        <div class="p-8 shadow-lg rounded-xl text-center bg-white">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="inline text-cyan-600 h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+            />
+          </svg>
+          <h1 class="text-3xl font-bold text-cyan-500">Ingresar</h1>
+          <h3 class="text-1xl font-semibold text-gray-500">
+            Entre en su cuenta!
+          </h3>
+          <form method="POST" action="procesar" class="text-left pt-3">
+            <input
+              name="txtNombreUsuario"
+              type="text"
+              placeholder="Nombre de Usuario"
+              class="
+                p-1
+                rounded-lg
+                bg-gray-100
+                shadow-md
+                focus:outline-none focus:border-2
+                border-cyan-500
+              "
+              required
+            />
+            <input
+              name="txtPassword"
+              type="password"
+              placeholder="Contraseña"
+              class="
+                block
+                p-1
+                mt-3
+                rounded-lg
+                bg-gray-100
+                shadow-md
+                focus:outline-none focus:border-2
+                border-cyan-500
+              "
+              required
+            />
+            <a class="text-sm text-cyan-600 underline"
+              >¿Olvidó su contraseña?</a
+            >
+            <button
+              type="submit"
+              class="
+                bg-cyan-200
+                p-2
+                pr-5
+                pl-5
+                text-gray-800
+                font-semibold
+                rounded-xl
+                border-cyan-700
+                focus:ring-2
+                m-4
+              "
+            >
+              Ingresar
+            </button>
+          </form>
         </div>
-    </body>
-    
+      </div>
+    </div>
+  </body>
 </html>
