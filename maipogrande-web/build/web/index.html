@@ -5,9 +5,11 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+        <script src="main.js" type="text/javascript"> </script>
     </head>
     <body>
-        <div class="flex min-h-screen">
+        <div class="flex bg-black">
         <!-- Nav -->
         <div
           class="flex flex-wrap justify-between w-screen h-20 text-white bg-black md:flex-nowrap"
@@ -17,12 +19,60 @@
                 <img src="https://img.icons8.com/external-justicon-flat-justicon/50/000000/external-fruit-thanksgiving-justicon-flat-justicon.png" alt='MaipoGrande'/>
             <p class="text-2xl text-">Maipo Grande</p>
           </div>
+      <!-- MenuButton -->
+      <button
+        class="z-30 flex items-center justify-end flex-grow pr-3 bg-black focus:outline-none md:hidden"
+        onClick="toggleNav()"        
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-8 h-8"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+      </button>
 
           <!-- Menu -->
           <div
-            class="flex flex-col items-stretch w-screen text-xl text-center transform bg-black md:flex-row md:translate-y-0 md:space-x-5 md:items-center md:justify-end md:pr-3">
+              class="hidden md:flex flex-col items-stretch w-screen text-xl text-center transform bg-black md:flex-row md:translate-y-0 md:space-x-5 md:items-center md:justify-end md:pr-3">
+            
+              <a
+              href="/maipogrande-web/"
+              class="h-10 leading-10 border-b-2 border-dotted md:border-none">
+                Inicio
+            </a>
             <a
-              href="/CapaServicios/"
+              href="#Nosotros"
+              class="h-10 leading-10 border-b-2 border-dotted md:border-none">
+                Sobre Nosotrxs
+            </a>
+            <a
+              href="#Servicios"
+              class="h-10 leading-10 border-b-2 border-dotted md:border-none">
+                Servicios
+            </a>
+            <a
+              href="/maipogrande-web/login.html"
+              class="h-10 leading-10 border-b-2 border-dotted md:border-none md:bg-red-600 md:rounded-full md:w-24">
+                Acceso
+            </a>
+          </div>
+                    <!-- Menu mov-->
+          <div
+              class="flex flex-col items-stretch w-screen text-xl text-center transform bg-black md:flex-row md:translate-y-0 md:space-x-5 md:items-center md:justify-end md:pr-3 md:hidden" 
+              id="navM"
+              style="display: none;" >
+            
+              <a
+              href="/maipogrande-web/"
               class="h-10 leading-10 border-b-2 border-dotted md:border-none">
                 Inicio
             </a>
@@ -43,9 +93,36 @@
             </a>
           </div>
         </div>
-        <div class="h-full w-full bg-black">
-            
-        </div>
       </div>
+        <div class="sliderAx h-auto mt-20">
+            <div id="slider-1" class="container mx-auto">
+                <div class="bg-cover bg-center  h-auto text-white py-24 px-10 object-fill" style="background-image: url(https://www.dosfarma.com/blog/wp-content/uploads/2020/02/vitaminas-1024x672.jpg)">
+                    <div class="md:w-1/2 w-auto">
+                        <p class="font-bold text-sm uppercase bg-purple-400 bg-opacity-30 w-auto">Que no te falten vitaminas</p>
+                        <p class="text-3xl font-bold bg-purple-500 bg-opacity-30">Somos líderes en el mercado mundial</p>
+                        <p class="text-2xl mb-10 leading-none bg-purple-400 bg-opacity-30">Tenemos una solución para cada tipo de cliente</p>
+                        <a href="#" class="bg-purple-800 py-4 px-8 text-white font-bold uppercase text-xs rounded hover:bg-gray-200 hover:text-gray-800">Contáctanos</a>
+                    </div>  
+                </div> 
+            <!-- container -->
+            <br>
+            </div>
+            <div id="slider-2" class="container mx-auto">
+                <div class="bg-cover bg-top  h-auto text-white py-24 px-10 object-fill" style="background-image: url(https://actualidadjuridica.doe.cl/wp-content/uploads/2021/08/Transporte.jpg)">  
+                    <div class="md:w-1/2 w-auto">
+                        <p class="font-bold text-sm uppercase bg-purple-400 bg-opacity-30 w-auto">Transportes</p>
+                        <p class="text-3xl font-bold bg-purple-500 bg-opacity-30 w-auto">Calidad donde estés</p>
+                        <p class="text-2xl mb-10 leading-none bg-purple-400 bg-opacity-30 w-auto">Conoce nuestros transportistas asociados</p>
+                        <a href="#" class="bg-purple-800 py-4 px-8 text-white font-bold uppercase text-xs rounded hover:bg-gray-200 hover:text-gray-800">Saber más</a>
+                    </div> 
+                </div> 
+            <!-- container -->
+            <br>
+            </div>
+        </div>
+        <div  class="flex justify-between w-12 mx-auto pb-2">
+            <button id="sButton1" onclick="sliderButton1()" class="bg-purple-400 rounded-full w-4 pb-2 "></button>
+            <button id="sButton2" onclick="sliderButton2() " class="bg-purple-400 rounded-full w-4 p-2"></button>
+        </div>
     </body>
 </html>
