@@ -4,7 +4,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>JSP Page</title>
+    <title>MaipoGrande - Cliente</title>
   </head>
   <body>
     <h1>Bienvenido Cliente</h1>
