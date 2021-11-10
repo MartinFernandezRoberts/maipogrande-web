@@ -114,14 +114,15 @@
                             "<input class='border-2 border-gray-300 hover:border-gray-400' type='number' name='precio"+producto.getIdProducto()+"' />"
                             +"</div>");
                     out.print("</div>");
-                    out.print("<input type='hidden' name='id"+producto.getIdProducto()+"' value='"+producto.getIdProducto()+"'/>");
+                    out.print("<input type='hidden' name='producto"+(cantidadProductos+1)+"' value='"+producto.getIdProducto()+"'/>");
                     
                     cantidadProductos+=1;
                 }
             %>
         <input type="hidden" name="cantidadProductos" value="<% out.print(cantidadProductos); %>"/>
+        <input type="hidden" name="IdCabeceraVenta" value="<% out.print(cabeceraProcesoVenta.getIdCabeceraVenta()); %>"/>
         <div class="container mx-auto p-4 flex justify-end">
-            <input type="submit" class="p-2 pl-5 pr-5 bg-green-500 text-white inline-block rounded hover:bg-green-400 font-bold uppercase">Postular</a>
+            <input type="submit" value="Postular" class="p-2 pl-5 pr-5 bg-green-500 text-white inline-block cursor-pointer rounded hover:bg-green-400 font-bold uppercase"/>
         </div>
         </form>
     </body>

@@ -5,9 +5,18 @@
  */
 package servlets;
 
+import DTO.CabeceraPostulacion;
+import DTO.CabeceraProcesoVenta;
+import DTO.DetallePostulacion;
+import Negocio.NegocioCabeceraPostulacion;
+import Negocio.NegocioCabeceraProcesoVenta;
+import Negocio.NegocioDetalleOrdenCompra;
+import Negocio.NegocioDetallePostulacion;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,24 +43,47 @@ public class ProcesarPostulacionProductor extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        int cantidadProductos = Integer.parseInt(request.getParameter("cantidadProductos"));
-        List<Object> productos = new ArrayList<Object>();
-        
-        for(int i=0; i<cantidadProductos; i++){
-            String producto = request.getParameter("producto"+(i+1));
-            if(producto != null){
-                
-                
-                int idProducto = Integer.parseInt(producto);
-                int cantidad = Integer.parseInt(request.getParameter("cantidad"+(i+1)));
-                int precio = Integer.parseInt(request.getParameter("precio"+(i+1)));
+
+        try{
+            int cantidadProductos = Integer.parseInt(request.getParameter("cantidadProductos"));
+            int rutProductor = 123; //Obtener rut productor
+            int idCabeceraPV = Integer.parseInt(request.getParameter("IdCabeceraVenta"));
+
+            Date fechaEmision = new Date();
+
+            CabeceraPostulacion cabeceraPostulacion = new CabeceraPostulacion();
+            cabeceraPostulacion.setIdCabeceraPV(idCabeceraPV);
+            cabeceraPostulacion.setRutProductor(rutProductor);
+            cabeceraPostulacion.setFechaEmision(fechaEmision);
+
+            NegocioCabeceraPostulacion negocioCabeceraPostulacion = new NegocioCabeceraPostulacion();
+            negocioCabeceraPostulacion.insertarCabeceraPostulacion(cabeceraPostulacion);
+            
+            cabeceraPostulacion = negocioCabeceraPostulacion.buscarUltimaInsercion();
+
+            for(int i=0; i<cantidadProductos; i++){
+                String producto = request.getParameter("producto"+(i+1));
+                if(producto != null){
+
+                    int idProducto = Integer.parseInt(producto);
+                    int cantidad = Integer.parseInt(request.getParameter("cantidad"+(i+1)));
+                    int precio = Integer.parseInt(request.getParameter("precio"+(i+1)));
+                    
+                    DetallePostulacion detallePostulacion = new DetallePostulacion();
+                    detallePostulacion.setIdCabeceraPostulacion(cabeceraPostulacion.getIdCabeceraPostulacion());
+                    detallePostulacion.setCantidad(cantidad);
+                    detallePostulacion.setPrecioUnitario(precio);
+                    detallePostulacion.setIdProducto(idProducto);
+                    
+                    NegocioDetallePostulacion negocioDetallePostulacion = new NegocioDetallePostulacion();
+                    negocioDetallePostulacion.insertarDetallePostulacion(detallePostulacion);
+                }
             }
             
-            
-        }
+            NegocioCabeceraProcesoVenta negocioCabeceraPV = new NegocioCabeceraProcesoVenta();
+            ArrayList<CabeceraProcesoVenta> listaProcesosVenta = negocioCabeceraPV.listarProcesosVenta();        
         
-        try{
-
+            request.setAttribute("procesosVenta", listaProcesosVenta);
             request.setAttribute("postulacionExitosa", true);
             request.getRequestDispatcher("procesos-venta.jsp").forward(request, response);
             
