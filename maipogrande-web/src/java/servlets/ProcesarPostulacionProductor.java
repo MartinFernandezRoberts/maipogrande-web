@@ -5,13 +5,10 @@
  */
 package servlets;
 
-import DTO.CabeceraProcesoVenta;
-import DTO.DetalleProcesoVenta;
-import Negocio.NegocioCabeceraProcesoVenta;
-import Negocio.NegocioDetalleProcesoVenta;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Asus
  */
-@WebServlet(name = "VerProcesoVenta", urlPatterns = {"/ver-proceso-venta"})
-public class VerProcesoVenta extends HttpServlet {
+@WebServlet(name = "ProcesarPostulacionProductor", urlPatterns = {"/procesar-postulacion-productor"})
+public class ProcesarPostulacionProductor extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,19 +34,39 @@ public class VerProcesoVenta extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        int cantidadProductos = Integer.parseInt(request.getParameter("cantidadProductos"));
+        List<Object> productos = new ArrayList<Object>();
         
-        int idProcesoVenta = Integer.parseInt(request.getParameter("idProcesoVenta"));
+        for(int i=0; i<cantidadProductos; i++){
+            String producto = request.getParameter("producto"+(i+1));
+            if(producto != null){
+                
+                
+                int idProducto = Integer.parseInt(producto);
+                int cantidad = Integer.parseInt(request.getParameter("cantidad"+(i+1)));
+                int precio = Integer.parseInt(request.getParameter("precio"+(i+1)));
+            }
+            
+            
+        }
         
-        NegocioCabeceraProcesoVenta negocioCabeceraPV = new NegocioCabeceraProcesoVenta();
-        CabeceraProcesoVenta cabeceraProcesosVenta = negocioCabeceraPV.buscarCabeceraProcesoVenta(idProcesoVenta);
-        
-        NegocioDetalleProcesoVenta negocioDetallePV = new NegocioDetalleProcesoVenta();
-        ArrayList<DetalleProcesoVenta> listaDetallesProcesoVenta = negocioDetallePV.listarDetallesProcesoVenta(idProcesoVenta);
-        
-        request.setAttribute("cabeceraProcesoVenta", cabeceraProcesosVenta);
-        request.setAttribute("listaDetallesProcesoVenta", listaDetallesProcesoVenta);
-        request.getRequestDispatcher("detalle-proceso-venta.jsp").forward(request, response);
+        try{
 
+            request.setAttribute("postulacionExitosa", true);
+            request.getRequestDispatcher("procesos-venta.jsp").forward(request, response);
+            
+        }catch(Exception ex){
+            PrintWriter out = response.getWriter();
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Error</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Error: " + ex + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

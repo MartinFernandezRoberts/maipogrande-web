@@ -5,6 +5,7 @@
 package Conexion;
 import java.sql.*;
 import javax.swing.JOptionPane;
+import oracle.jdbc.oracore.Util;
 
 
 /**
@@ -172,6 +173,48 @@ public class Conexion
      * Metodo que realiza la conexion y ejecuta la instrucciòn
      * SQL; además de realizar las validaciones correspondientes
      */
+    
+    public void ejecutarProcedimiento(String nombreProcedimiento, String[] parametros, String[] tipos, Object[] valores){
+        try{
+           
+            Class.forName(this.getCadenaConexion());
+            this.setDbConnection(DriverManager.getConnection(this.getNombreBaseDeDatos(), this.getUsuario(), this.getPass()));
+            
+            String params = "";
+            
+            for(int i=0; i<parametros.length; i++){
+                params += "?,";
+            }
+            params = params.substring(0, params.length() - 1);
+            String command = "{call "+nombreProcedimiento+"("+params+")}";
+            CallableStatement cstmt = this.getDbConnection().prepareCall(command);
+            
+            for(int i=0; i<parametros.length; i++){
+                if(tipos[i] == "string"){
+                    cstmt.registerOutParameter(parametros[i], Types.VARCHAR);                
+                    cstmt.setString(parametros[i], valores[i].toString());
+                }else if(tipos[i] == "int"){
+                    cstmt.registerOutParameter(parametros[i], Types.NUMERIC);                
+                    cstmt.setInt(parametros[i], Integer.parseInt(valores[i].toString()));
+                }else if(tipos[i] == "double"){
+                    cstmt.registerOutParameter(parametros[i], Types.FLOAT);                
+                    cstmt.setFloat(parametros[i], Float.parseFloat(valores[i].toString()));
+                }else if(tipos[i] == "date"){
+                    cstmt.registerOutParameter(parametros[i], Types.DATE);
+                    
+                    java.util.Date fecha = (java.util.Date)valores[i];
+     
+   
+                    cstmt.setDate(parametros[i], new java.sql.Date(fecha.getTime()));
+                }
+            }
+            
+            cstmt.execute();
+            cstmt.close();
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Error al ejecutar el procedimiento almacenado. " + ex.getMessage());
+        }
+    }
     
     public void conectar()
     {

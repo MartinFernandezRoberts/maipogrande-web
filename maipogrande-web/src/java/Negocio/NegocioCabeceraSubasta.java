@@ -45,22 +45,23 @@ public class NegocioCabeceraSubasta {
     {
         this.configurarConexion();
         this.getCon().setCadenaSQL("INSERT INTO " + this.getCon().getNombreTabla()+
-                                     " (ID_CABECERA_SUBASTA,FECHA_LIMITE_ENTREGA,ID_COMUNA,ID_CABECERA_PV) "
+                                     " (ID_CABECERA_SUBASTA,FECHA_LIMITE_ENTREGA,ID_COMUNA,ID_CABECERA_PV,ID_ESTADO_SUBASTA) "
                                              + "VALUES ("+
                                     cabeceraSubasta.getIdCabeceraSubasta()+ ",'"+
                                     cabeceraSubasta.getFechaLimiteEntrega()+ "',"+ 
                                     cabeceraSubasta.getIdComuna()+","+
-                                    cabeceraSubasta.getIdCabeceraProcesoVenta()+");");
+                                    cabeceraSubasta.getIdCabeceraProcesoVenta()+","+
+                                    cabeceraSubasta.getIdEstadoSubasta()+");");
         this.getCon().setEsSelect(false);
         this.getCon().conectar();
     }
     
-    public CabeceraSubasta buscarCabeceraProcesoVenta(int idCabeceraSubasta)
+    public CabeceraSubasta buscarCabeceraSubasta(int idCabeceraSubasta)
     {
         CabeceraSubasta cabeceraSubasta = new CabeceraSubasta();
         this.configurarConexion();
         this.getCon().setCadenaSQL("SELECT * FROM " + this.getCon().getNombreTabla()+
-                                     " WHERE ID_CABECERA_SUBASTA = " +idCabeceraSubasta +";" );
+                                     " WHERE ID_CABECERA_SUBASTA = " +idCabeceraSubasta );
         this.getCon().setEsSelect(true);
         this.getCon().conectar();
         
@@ -72,6 +73,37 @@ public class NegocioCabeceraSubasta {
                 cabeceraSubasta.setFechaLimiteEntrega(this.getCon().getDbResultSet().getDate("FECHA_LIMITE_ENTREGA"));
                 cabeceraSubasta.setIdComuna(this.getCon().getDbResultSet().getInt("ID_COMUNA"));
                 cabeceraSubasta.setIdCabeceraProcesoVenta(this.getCon().getDbResultSet().getInt("ID_CABECERA_PV"));
+                cabeceraSubasta.setIdEstadoSubasta(this.getCon().getDbResultSet().getInt("ID_ESTADO_SUBASTA"));
+           }
+        }
+        catch(Exception ex)
+        {
+            CabeceraSubasta auxCabeceraSubasta = new CabeceraSubasta();
+            return auxCabeceraSubasta;
+        }
+        
+        return cabeceraSubasta;
+    }
+    
+    
+    public CabeceraSubasta buscarCabeceraSubastaDeProcesoVenta(int idProcesoVenta)
+    {
+        CabeceraSubasta cabeceraSubasta = new CabeceraSubasta();
+        this.configurarConexion();
+        this.getCon().setCadenaSQL("SELECT * FROM " + this.getCon().getNombreTabla()+
+                                     " WHERE ID_CABECERA_PV = " +idProcesoVenta );
+        this.getCon().setEsSelect(true);
+        this.getCon().conectar();
+        
+        try
+        {
+           if(this.getCon().getDbResultSet().next())
+           {
+                cabeceraSubasta.setIdCabeceraSubasta(this.getCon().getDbResultSet().getInt("ID_CABECERA_SUBASTA"));
+                cabeceraSubasta.setFechaLimiteEntrega(this.getCon().getDbResultSet().getDate("FECHA_LIMITE_ENTREGA"));
+                cabeceraSubasta.setIdComuna(this.getCon().getDbResultSet().getInt("ID_COMUNA"));
+                cabeceraSubasta.setIdCabeceraProcesoVenta(this.getCon().getDbResultSet().getInt("ID_CABECERA_PV"));
+                cabeceraSubasta.setIdEstadoSubasta(this.getCon().getDbResultSet().getInt("ID_ESTADO_SUBASTA"));
            }
         }
         catch(Exception ex)
@@ -100,6 +132,7 @@ public class NegocioCabeceraSubasta {
                 cabeceraSubasta.setFechaLimiteEntrega(this.getCon().getDbResultSet().getDate("FECHA_LIMITE_ENTREGA"));
                 cabeceraSubasta.setIdComuna(this.getCon().getDbResultSet().getInt("ID_COMUNA"));
                 cabeceraSubasta.setIdCabeceraProcesoVenta(this.getCon().getDbResultSet().getInt("ID_CABECERA_PV"));
+                cabeceraSubasta.setIdEstadoSubasta(this.getCon().getDbResultSet().getInt("ID_ESTADO_SUBASTA"));
 
                 listaSubastasTransporte.add(cabeceraSubasta);
            } //Fin while

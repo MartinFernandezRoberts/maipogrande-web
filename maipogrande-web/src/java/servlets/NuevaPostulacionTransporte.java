@@ -6,8 +6,10 @@
 package servlets;
 
 import DTO.CabeceraProcesoVenta;
+import DTO.CabeceraSubasta;
 import DTO.DetalleProcesoVenta;
 import Negocio.NegocioCabeceraProcesoVenta;
+import Negocio.NegocioCabeceraSubasta;
 import Negocio.NegocioDetalleProcesoVenta;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,8 +24,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Asus
  */
-@WebServlet(name = "VerProcesoVenta", urlPatterns = {"/ver-proceso-venta"})
-public class VerProcesoVenta extends HttpServlet {
+@WebServlet(name = "NuevaPostulacionTransporte", urlPatterns = {"/nueva-postulacion-transporte"})
+public class NuevaPostulacionTransporte extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,16 +42,11 @@ public class VerProcesoVenta extends HttpServlet {
         
         int idProcesoVenta = Integer.parseInt(request.getParameter("idProcesoVenta"));
         
-        NegocioCabeceraProcesoVenta negocioCabeceraPV = new NegocioCabeceraProcesoVenta();
-        CabeceraProcesoVenta cabeceraProcesosVenta = negocioCabeceraPV.buscarCabeceraProcesoVenta(idProcesoVenta);
+        NegocioCabeceraSubasta negocioCabeceraSubasta = new NegocioCabeceraSubasta();
+        CabeceraSubasta cabeceraSubasta = negocioCabeceraSubasta.buscarCabeceraSubastaDeProcesoVenta(idProcesoVenta);
         
-        NegocioDetalleProcesoVenta negocioDetallePV = new NegocioDetalleProcesoVenta();
-        ArrayList<DetalleProcesoVenta> listaDetallesProcesoVenta = negocioDetallePV.listarDetallesProcesoVenta(idProcesoVenta);
-        
-        request.setAttribute("cabeceraProcesoVenta", cabeceraProcesosVenta);
-        request.setAttribute("listaDetallesProcesoVenta", listaDetallesProcesoVenta);
-        request.getRequestDispatcher("detalle-proceso-venta.jsp").forward(request, response);
-
+        request.setAttribute("cabeceraSubasta", cabeceraSubasta);
+        request.getRequestDispatcher("nueva-postulacion-transporte.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -4,17 +4,9 @@
         <servlet-name>Procesar</servlet-name>
         <servlet-class>servlets.Procesar</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>NewServlet</servlet-name>
-        <servlet-class>servlets.NewServlet</servlet-class>
-    </servlet>
     <servlet-mapping>
         <servlet-name>Procesar</servlet-name>
         <url-pattern>/procesar</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>NewServlet</servlet-name>
-        <url-pattern>/nuevoservlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
