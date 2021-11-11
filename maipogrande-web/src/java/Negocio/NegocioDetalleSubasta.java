@@ -44,20 +44,22 @@ public class NegocioDetalleSubasta {
     public void insertarDetalleProcesoVenta(DetalleSubasta detalleSubasta)
     {
         this.configurarConexion();
-        this.getCon().setCadenaSQL("INSERT INTO " + this.getCon().getNombreTabla()+
-                                     " (ID_DETALLE_SUBASTA,FECHA_ESTIMADA_ENTREGA,CAPACIDAD_CARGA,REFRIGERACION,PESO_MAX,EXTRAS,PRECIO,ID_CABECERA_SUBASTA,ID_EMPRESA_TRANS) "
-                                             + "VALUES ("+
-                                    detalleSubasta.getIdDetalleSubasta()+ ",'"+
-                                    detalleSubasta.getFechaEstimadaEntrega()+ "','"+ 
-                                    detalleSubasta.getCapacidadCarga()+"','"+
-                                    detalleSubasta.getRefrigeracion()+"','"+
-                                    detalleSubasta.getPesoMaximo()+"','"+
-                                    detalleSubasta.getExtras()+"',"+
-                                    detalleSubasta.getPrecio()+","+
-                                    detalleSubasta.getIdCabeceraSubasta()+","+
-                                    detalleSubasta.getIdEmpresaTransporte()+");");
-        this.getCon().setEsSelect(false);
-        this.getCon().conectar();
+
+        String[] parametros = {"FECHA_ESTIMADA_ENTREGA","CAPACIDAD_CARGA", "REFRIGERACION", "PESO_MAX", "EXTRAS", "PRECIO", "ID_CABECERA_SUBASTA", "ID_EMPRESA_TRANS"};
+        String[] tipos = {"date","string","string","string","string","int","int","int"};
+        Object[] valores = {
+            detalleSubasta.getFechaEstimadaEntrega(),
+            detalleSubasta.getCapacidadCarga(),
+            detalleSubasta.getRefrigeracion(),
+            detalleSubasta.getPesoMaximo(),
+            detalleSubasta.getExtras(),
+            detalleSubasta.getPrecio(),
+            detalleSubasta.getIdCabeceraSubasta(),
+            detalleSubasta.getIdEmpresaTransporte()
+        };
+
+        this.getCon().ejecutarProcedimiento("SP_INGRESAR_DETALLE_SUBASTA", parametros, tipos, valores);
+
     }
     
     public ArrayList<DetalleSubasta> listarDetallesSubasta(int idCabeceraSubasta) {

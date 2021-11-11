@@ -61,7 +61,7 @@ public class NegocioDetalleProcesoVenta {
         this.configurarConexion();
         this.getCon().setCadenaSQL("SELECT * FROM " +
                                        this.getCon().getNombreTabla()+
-                                     " WHERE ID_CABECERA_PV = " +idCabeceraProcesoVenta +";" );
+                                     " WHERE ID_CABECERA_PV = " +idCabeceraProcesoVenta );
         this.getCon().setEsSelect(true);
         this.getCon().conectar();
 

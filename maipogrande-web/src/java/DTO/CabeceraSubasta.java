@@ -12,11 +12,27 @@ import java.util.Date;
  * @author Asus
  */
 public class CabeceraSubasta {
+
     private int idCabeceraSubasta;
     private Date fechaLimiteEntrega;
     private int idComuna;
     private int idCabeceraProcesoVenta;
+    private int idEstadoSubasta;
 
+    /**
+     * @return the idEstadoSubasta
+     */
+    public int getIdEstadoSubasta() {
+        return idEstadoSubasta;
+    }
+
+    /**
+     * @param idEstadoSubasta the idEstadoSubasta to set
+     */
+    public void setIdEstadoSubasta(int idEstadoSubasta) {
+        this.idEstadoSubasta = idEstadoSubasta;
+    }
+    
     /**
      * @return the idCabeceraSubasta
      */

@@ -46,7 +46,7 @@ public class NegocioProducto {
         Producto producto = new Producto();
         this.configurarConexion();
         this.getCon().setCadenaSQL("SELECT * FROM " + this.getCon().getNombreTabla()+
-                                     " WHERE ID_PRODUCTO = " +idProducto +";" );
+                                     " WHERE ID_PRODUCTO = " +idProducto );
         this.getCon().setEsSelect(true);
         this.getCon().conectar();
         
