@@ -39,6 +39,36 @@ public class NegocioCliente {
         this.getCon().setPass("123");
     } //Fin configurar
     
+    public Cliente buscarClienteUsuario(int idUsuario){
+        Cliente cliente = new Cliente();
+        this.configurarConexion();
+        this.getCon().setCadenaSQL("SELECT * FROM " + this.getCon().getNombreTabla()+
+                                    " WHERE ID_USUARIO = " +idUsuario);
+        this.getCon().setEsSelect(true);
+        this.getCon().conectar();
+                try
+        {
+           if(this.getCon().getDbResultSet().next())
+           {
+                cliente.setRut(this.getCon().getDbResultSet().getInt("RUT"));
+                cliente.setDvRut(this.getCon().getDbResultSet().getString("DV_RUT"));
+                cliente.setRazonSocial(this.getCon().getDbResultSet().getString("RAZON_SOCIAL"));
+                cliente.setDireccion(this.getCon().getDbResultSet().getString("DIRECCION"));
+                cliente.setGiro(this.getCon().getDbResultSet().getString("GIRO"));
+                cliente.setIdComuna(this.getCon().getDbResultSet().getInt("ID_COMUNA"));
+                cliente.setIdUsuario(this.getCon().getDbResultSet().getInt("ID_USUARIO"));
+                cliente.setIdTipo(this.getCon().getDbResultSet().getInt("ID_TIPO"));
+           }
+        }
+        catch(Exception ex)
+        {
+            Cliente auxCliente = new Cliente();
+            return auxCliente;
+        }
+        
+        return cliente;
+    }
+    
     public Cliente buscarCliente(int rutCliente)
     {
         Cliente cliente = new Cliente();

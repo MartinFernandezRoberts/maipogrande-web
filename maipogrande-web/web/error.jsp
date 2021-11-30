@@ -15,7 +15,7 @@
         <h1>Error</h1>
         <p>Usuario o contraseña incorrecta</p>
          <a
-              href="/CapaServicios/index.html"
+              href="/maipogrande-web/"
               class="h-10 leading-10 border-b-2 border-dotted md:border-none md:bg-red-600 md:rounded-full md:w-24">
                 Volver
             </a>

@@ -6,14 +6,16 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import Negocio.NegocioUsuario;
+import javax.servlet.*;
+import javax.servlet.http.*;
 import DTO.Usuario;
-import javax.swing.text.DefaultEditorKit;
+import DTO.Cliente;
+import DTO.TipoCliente;
+import DTO.Perfil;
+import Negocio.NegocioTipoCliente;
+import Negocio.NegocioCliente;
+import Negocio.NegocioPerfil;
+import Negocio.NegocioUsuario;
 
 /**
  *
@@ -41,14 +43,37 @@ public class Procesar extends HttpServlet {
        Usuario usuario = negocioUsuario.iniciarSesion(nombreUsuario, password);
        
        
+
        
        
        
        if(usuario.getIdUsuario()!=0){
+           
+           
            int perfil = usuario.getIdPerfil();
+           int idUsuario = usuario.getIdUsuario();
+           
+           NegocioPerfil negocioPerfil = new NegocioPerfil();
+           Perfil perfilUsuario = negocioPerfil.buscarPerfil(perfil);
+           
+           
+           
+           HttpSession session = request.getSession();
+           session.setAttribute("name",nombreUsuario);
+           session.setAttribute("perfilUsuario", perfilUsuario.getDescPerfil());
            
            switch(perfil){
                case 2:
+                NegocioCliente negocioCliente = new NegocioCliente();
+                Cliente cliente = negocioCliente.buscarClienteUsuario(idUsuario);
+                
+                NegocioTipoCliente negocioTipoCliente = new NegocioTipoCliente();
+                TipoCliente tipoCliente = negocioTipoCliente.buscarTipoCliente(cliente.getIdTipo());
+                
+                
+                session.setAttribute("tipoCliente",tipoCliente.getDescTipo());
+                session.setAttribute("giroCliente",cliente.getGiro());
+                
                 request.getRequestDispatcher("cliente.jsp").forward(request, response);
                 break;
                  case 3:

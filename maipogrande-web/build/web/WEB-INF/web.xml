@@ -4,9 +4,17 @@
         <servlet-name>Procesar</servlet-name>
         <servlet-class>servlets.Procesar</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>servlets.LogoutServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Procesar</servlet-name>
         <url-pattern>/procesar</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/LogoutServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

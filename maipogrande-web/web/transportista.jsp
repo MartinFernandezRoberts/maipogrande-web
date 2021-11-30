@@ -7,7 +7,7 @@
     <title>MaipoGrande - Transportista</title>
   </head>
   <body>
-    <h1>Bienvenido transportista</h1>
+    <h1>Bienvenido<h1>Bienvenido <% out.print( session.getAttribute("name") ); %> </h1></h1>
     <li>
       <ul>
         <a href="">Postular a proceso de venta</a>
