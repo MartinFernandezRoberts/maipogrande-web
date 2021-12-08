@@ -24,6 +24,14 @@
         <servlet-name>ProcesarEliminarDelCarro</servlet-name>
         <servlet-class>servlets.ProcesarEliminarDelCarro</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProcesarCrearProcesoVenta</servlet-name>
+        <servlet-class>servlets.ProcesarCrearProcesoVenta</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CargarMisProcesosVenta</servlet-name>
+        <servlet-class>servlets.CargarMisProcesosVenta</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Procesar</servlet-name>
         <url-pattern>/procesar</url-pattern>
@@ -47,6 +55,14 @@
     <servlet-mapping>
         <servlet-name>ProcesarEliminarDelCarro</servlet-name>
         <url-pattern>/procesar-eliminar-del-carro</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProcesarCrearProcesoVenta</servlet-name>
+        <url-pattern>/procesar-crear-proceso-venta</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CargarMisProcesosVenta</servlet-name>
+        <url-pattern>/cargar-mis-procesos-venta</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

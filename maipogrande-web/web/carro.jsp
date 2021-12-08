@@ -117,7 +117,7 @@
     <!-- ############################ -->
         
         <div>
-            <h1 class="container mx-auto mt-8 text-2xl">Cat&aacute;logo</h1>
+            <h1 class="container mx-auto mt-8 text-2xl">Carro de Compras</h1>
         </div>
         </br>
         <div class="container mx-auto">
@@ -151,6 +151,20 @@
                         out.print("<input type='hidden' name='idProducto' value='"+producto.getProducto().getIdProducto()+"' />");
                         out.print("</form>");
                     }
+                
+                
+                // AGREGAR CAMPO DE OBSERVACIONES
+                
+                out.print("<form action='/maipogrande-web/procesar-crear-proceso-venta' method='POST'>");
+                
+                out.print("<div class='p-4 mb-2 rounded bg-gray-100 flex flex-col'>");
+                out.print("<label class='mb-2 font-bold text-gray-500' for='observaciones'>Observaciones:</label>");
+                out.print("<input class='p-2 border-2 border-gray-300 hover:border-gray-400' type='text' name='observaciones' id='observaciones'/>");
+                out.print("</div>");                
+                out.print("<div class='container mx-auto p-4 flex justify-end'>");
+                out.print("<input type='submit' value='Ingresar Solicitud de Compra' class='p-2 pl-5 pr-5 bg-green-500 text-white inline-block cursor-pointer rounded hover:bg-green-400 font-bold uppercase'/>");
+                out.print("</div>");
+                out.print("</form>");
                 }else{
                     out.print("<div class='p-4 mb-2 rounded bg-gray-100 font-bold text-gray-500'>");
                     out.print("No hay productos en el carro.");

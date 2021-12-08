@@ -5,23 +5,24 @@
  */
 package servlets;
 
-import java.io.IOException;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import DTO.Usuario;
+import DTO.CabeceraProcesoVenta;
 import DTO.Cliente;
-import DTO.TipoCliente;
-import DTO.Perfil;
-import Negocio.NegocioTipoCliente;
+import Negocio.NegocioCabeceraProcesoVenta;
 import Negocio.NegocioCliente;
-import Negocio.NegocioPerfil;
-import Negocio.NegocioUsuario;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Asus
  */
-public class Procesar extends HttpServlet {
+public class CargarMisProcesosVenta extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,33 +36,18 @@ public class Procesar extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-       String nombreUsuario = request.getParameter("txtNombreUsuario");
-       String password = request.getParameter("txtPassword");
-
-       NegocioUsuario negocioUsuario = new NegocioUsuario();
-       Usuario usuario = negocioUsuario.iniciarSesion(nombreUsuario, password);
-       
-       if(usuario.getIdUsuario()!=0){
-           
-           int idPerfil = usuario.getIdPerfil();
-           int idUsuario = usuario.getIdUsuario();
-           
-           NegocioPerfil negocioPerfil = new NegocioPerfil();
-           Perfil perfilUsuario = negocioPerfil.buscarPerfil(idPerfil);
-           
-           HttpSession session = request.getSession();
-           session.setAttribute("nombreUsuario",nombreUsuario);
-           session.setAttribute("idUsuario",idUsuario);
-           session.setAttribute("idPerfil", idPerfil);
-           session.setAttribute("descPerfil", perfilUsuario.getDescPerfil());
-           session.setAttribute("carro", null);
-                
-           request.getRequestDispatcher("index.jsp").forward(request, response);
-       }else{
-            request.setAttribute("error", true);
-            request.getRequestDispatcher("index.jsp").forward(request, response);
-       }
+        
+        HttpSession session = request.getSession();
+        int idUsuario = Integer.parseInt(session.getAttribute("idUsuario").toString());
+                    
+        NegocioCliente negocioCliente = new NegocioCliente();
+        Cliente cliente = negocioCliente.buscarClienteUsuario(idUsuario);
+        
+        NegocioCabeceraProcesoVenta negocioCabeceraPV = new NegocioCabeceraProcesoVenta();
+        ArrayList<CabeceraProcesoVenta> listaProcesosVenta = negocioCabeceraPV.listarProcesosVentaCliente(cliente.getRut());        
+        
+        request.setAttribute("procesosVenta", listaProcesosVenta);
+        request.getRequestDispatcher("mis-procesos-venta.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
