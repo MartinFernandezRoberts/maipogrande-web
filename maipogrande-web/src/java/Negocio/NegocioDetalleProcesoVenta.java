@@ -44,16 +44,17 @@ public class NegocioDetalleProcesoVenta {
     public void insertarDetalleProcesoVenta(DetalleProcesoVenta detalleProcesoVenta)
     {
         this.configurarConexion();
-        this.getCon().setCadenaSQL("INSERT INTO " + this.getCon().getNombreTabla()+
-                                     " (ID_DETALLE_PV,ID_PRODUCTO,CANTIDAD,PRECIO_UNITARIO,ID_CABECERA_PV) "
-                                             + "VALUES ("+
-                                    detalleProcesoVenta.getIdDetalleVenta()+ ","+
-                                    detalleProcesoVenta.getIdProducto()+ ","+ 
-                                    detalleProcesoVenta.getCantidad()+","+
-                                    detalleProcesoVenta.getPrecioUnitario()+","+
-                                    detalleProcesoVenta.getIdCabeceraVenta()+");");
-        this.getCon().setEsSelect(false);
-        this.getCon().conectar();
+        
+        String[] parametros = {"ID_PRODUCTO","CANTIDAD", "PRECIO_UNITARIO", "ID_CABECERA_PV"};
+        String[] tipos = {"int","int","int","int"};
+        Object[] valores = {
+            detalleProcesoVenta.getIdProducto(),
+            detalleProcesoVenta.getCantidad(),
+            detalleProcesoVenta.getPrecioUnitario(),
+            detalleProcesoVenta.getIdCabeceraVenta()
+        };
+
+        this.getCon().ejecutarProcedimiento("SP_INGRESAR_DETALLE_PV", parametros, tipos, valores);
     }
     
     public ArrayList<DetalleProcesoVenta> listarDetallesProcesoVenta(int idCabeceraProcesoVenta) {

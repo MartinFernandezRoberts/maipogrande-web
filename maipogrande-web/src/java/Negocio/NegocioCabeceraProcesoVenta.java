@@ -44,17 +44,17 @@ public class NegocioCabeceraProcesoVenta {
     public void insertarCabeceraProcesoVenta(CabeceraProcesoVenta cabeceraProcesoVenta)
     {
         this.configurarConexion();
-        this.getCon().setCadenaSQL("INSERT INTO " + this.getCon().getNombreTabla()+
-                                     " (ID_CABECERA_PV,FECHA_EMISION,OBS_PV,RUT_CLIENTE,ESTADO_PV,EMPRESA_TRANS) "
-                                             + "VALUES ("+
-                                    cabeceraProcesoVenta.getIdCabeceraVenta()+ ",'"+
-                                    cabeceraProcesoVenta.getFechaEmision()+ "','"+ 
-                                    cabeceraProcesoVenta.getObservaciones()+"',"+
-                                    cabeceraProcesoVenta.getRutCliente()+","+
-                                    cabeceraProcesoVenta.getIdEstado()+","+
-                                    cabeceraProcesoVenta.getIdEmpresaTransporte()+");");
-        this.getCon().setEsSelect(false);
-        this.getCon().conectar();
+        
+        String[] parametros = {"FECHA_EMISION", "OBS_PV", "RUT_CLIENTE", "ESTADO_PV"};
+        String[] tipos = {"date","string","int","int"};
+        Object[] valores = {
+            cabeceraProcesoVenta.getFechaEmision(),
+            cabeceraProcesoVenta.getObservaciones(),
+            cabeceraProcesoVenta.getRutCliente(),
+            cabeceraProcesoVenta.getIdEstado(),
+        };
+
+        this.getCon().ejecutarProcedimiento("SP_INGRESAR_CAB_PV", parametros, tipos, valores);
     }
     
     public CabeceraProcesoVenta buscarCabeceraProcesoVenta(int idCabeceraProcesoVenta)
@@ -116,5 +116,66 @@ public class NegocioCabeceraProcesoVenta {
         } //Fin try cargar arraylist
 
         return listaProcesosVenta;
+    }
+
+    public ArrayList<CabeceraProcesoVenta> listarProcesosVentaCliente(int rutCliente) {
+        ArrayList<CabeceraProcesoVenta> listaProcesosVenta = new ArrayList<>();
+        this.configurarConexion();
+        this.getCon().setCadenaSQL("SELECT * FROM " +
+                                       this.getCon().getNombreTabla() + 
+                                    " WHERE RUT_CLIENTE="+rutCliente);
+        this.getCon().setEsSelect(true);
+        this.getCon().conectar();
+
+        try
+        {
+           while(this.getCon().getDbResultSet().next())
+           {
+                CabeceraProcesoVenta procesoVenta = new CabeceraProcesoVenta();
+                procesoVenta.setIdCabeceraVenta(this.getCon().getDbResultSet().getInt("ID_CABECERA_PV"));
+                procesoVenta.setIdEmpresaTransporte(this.getCon().getDbResultSet().getInt("EMPRESA_TRANS"));
+                procesoVenta.setFechaEmision(this.getCon().getDbResultSet().getDate("FECHA_EMISION"));
+                procesoVenta.setObservaciones(this.getCon().getDbResultSet().getString("OBS_PV"));
+                procesoVenta.setIdEstado(this.getCon().getDbResultSet().getInt("ESTADO_PV"));
+                procesoVenta.setRutCliente(this.getCon().getDbResultSet().getInt("RUT_CLIENTE"));
+
+                listaProcesosVenta.add(procesoVenta);
+           } //Fin while
+        }
+        catch(Exception ex)
+        {
+           JOptionPane.showMessageDialog(null, "Error SQL " + ex.getMessage());
+        } //Fin try cargar arraylist
+
+        return listaProcesosVenta;
+    }
+    
+    public CabeceraProcesoVenta buscarUltimaInsercion()
+    {
+        CabeceraProcesoVenta cabeceraProcesoVenta = new CabeceraProcesoVenta();
+        this.configurarConexion();
+        this.getCon().setCadenaSQL("SELECT * FROM " + this.getCon().getNombreTabla()+
+                                     " WHERE ID_CABECERA_PV = (SELECT MAX(ID_CABECERA_PV) FROM "+this.getCon().getNombreTabla()+")");
+        this.getCon().setEsSelect(true);
+        this.getCon().conectar();
+        
+        try
+        {
+           if(this.getCon().getDbResultSet().next())
+           {
+                cabeceraProcesoVenta.setIdCabeceraVenta(this.getCon().getDbResultSet().getInt("ID_CABECERA_PV"));
+                cabeceraProcesoVenta.setFechaEmision(this.getCon().getDbResultSet().getDate("FECHA_EMISION"));
+                cabeceraProcesoVenta.setObservaciones(this.getCon().getDbResultSet().getString("OBS_PV"));
+                cabeceraProcesoVenta.setRutCliente(this.getCon().getDbResultSet().getInt("RUT_CLIENTE"));
+                cabeceraProcesoVenta.setIdEstado(this.getCon().getDbResultSet().getInt("ESTADO_PV"));
+           }
+        }
+        catch(Exception ex)
+        {
+            CabeceraProcesoVenta auxCabeceraProcesoVenta = new CabeceraProcesoVenta();
+            return auxCabeceraProcesoVenta;
+        }
+        
+        return cabeceraProcesoVenta;
     }
 }
