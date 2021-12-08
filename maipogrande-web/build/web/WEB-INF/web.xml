@@ -8,6 +8,14 @@
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>servlets.LogoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProcesarAgregarAlCarro</servlet-name>
+        <servlet-class>servlets.ProcesarAgregarAlCarro</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CargarCatalogo</servlet-name>
+        <servlet-class>servlets.CargarCatalogo</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Procesar</servlet-name>
         <url-pattern>/procesar</url-pattern>
@@ -15,6 +23,14 @@
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/LogoutServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProcesarAgregarAlCarro</servlet-name>
+        <url-pattern>/procesar-agregar-al-carro</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CargarCatalogo</servlet-name>
+        <url-pattern>/procesar-cargar-catalogo</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
