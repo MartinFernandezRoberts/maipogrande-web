@@ -1,11 +1,10 @@
 <%-- 
-    Document   : index
-    Created on : 08-12-2021, 11:39:24
+    Document   : carro
+    Created on : 08-12-2021, 16:35:16
     Author     : Asus
 --%>
 
 <%@page import="DTO.ProductoCarro"%>
-<%@page import="DTO.CarroCompras"%>
 <%@page import="DTO.CarroCompras"%>
 <%@page import="DTO.Cliente"%>
 <%@page import="Negocio.NegocioCliente"%>
@@ -13,12 +12,10 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>MaipoGrande - Venta local y Exportaciones de Fruta.</title>
-        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Maipo Grande - Procesos de venta</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
-        <script src="main.js" type="text/javascript"> </script>
     </head>
     <body>
         
@@ -66,21 +63,6 @@
               class="h-10 leading-10 border-b-2 border-dotted md:border-none">
                 Inicio
             </a>
-<!--              <a
-              href="/maipogrande-web/cargar-procesos-venta"
-              class="h-10 leading-10 border-b-2 border-dotted md:border-none">
-                Procesos de Venta
-            </a>-->
-<!--            <a
-              href="#Nosotros"
-              class="h-10 leading-10 border-b-2 border-dotted md:border-none">
-                Sobre Nosotrxs
-            </a>-->
-<!--            <a
-              href="#Servicios"
-              class="h-10 leading-10 border-b-2 border-dotted md:border-none">
-                Servicios
-            </a>-->
             <%
                 if(session.getAttribute("nombreUsuario") == null){
                     out.print("<a href='/maipogrande-web/login.html' class='px-4 py-2 md:border-none md:bg-red-600 md:rounded-full'>Iniciar Sesión</a>");                
@@ -91,6 +73,7 @@
                             NegocioCliente negocioCliente = new NegocioCliente();
                             Cliente cliente = negocioCliente.buscarClienteUsuario(Integer.parseInt(session.getAttribute("idUsuario").toString()));
                             
+                            
                             out.print("<a href='/maipogrande-web/procesar-cargar-catalogo' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Catálogo</a>");
                             
                             // Si es cliente interno, muestra ordenes de compra
@@ -98,7 +81,6 @@
                             out.print(cliente.getIdTipo() == 2 ?
                                     "<a href='/maipogrande-web/cargar-mis-ordenes-compra' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Mis Órdenes de Compra</a>"
                                     :"<a href='/maipogrande-web/cargar-mis-procesos-venta' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Mis Procesos de Venta</a>");
-                            
                             CarroCompras carroCompras = session.getAttribute("carro") != null ?
                                                             (CarroCompras)session.getAttribute("carro") : null;
                             int cantidadProductos = 0;
@@ -127,33 +109,6 @@
             %>
 
           </div>
-                    <!-- Menu mov-->
-<!--          <div
-              class="flex flex-col items-stretch w-screen text-xl text-center transform bg-black md:flex-row md:translate-y-0 md:space-x-5 md:items-center md:justify-end md:pr-3 md:hidden" 
-              id="navM"
-              style="display: none;" >
-            
-              <a
-              href="/maipogrande-web/"
-              class="h-10 leading-10 border-b-2 border-dotted md:border-none">
-                Inicio
-            </a>
-            <a
-              href="#Nosotros"
-              class="h-10 leading-10 border-b-2 border-dotted md:border-none">
-                Sobre Nosotrxs
-            </a>
-            <a
-              href="#Servicios"
-              class="h-10 leading-10 border-b-2 border-dotted md:border-none">
-                Servicios
-            </a>
-            <a
-              href="/maipogrande-web/login.html"
-              class="h-10 leading-10 border-b-2 border-dotted md:border-none md:bg-red-600 md:rounded-full md:w-24">
-                Acceso
-            </a>
-          </div>-->
         </div>
       </div>
         
@@ -161,35 +116,52 @@
     <!-- ######### FIN MENU ######### -->
     <!-- ############################ -->
         
-        <div class="sliderAx h-auto mt-20">
-            <div id="slider-1" class="container mx-auto">
-                <div class="bg-cover bg-center  h-auto text-white py-24 px-10 object-fill" style="background-image: url(https://www.dosfarma.com/blog/wp-content/uploads/2020/02/vitaminas-1024x672.jpg)">
-                    <div class="md:w-1/2 w-auto">
-                        <p class="font-bold text-sm uppercase bg-purple-400 bg-opacity-30 w-auto">Que no te falten vitaminas</p>
-                        <p class="text-3xl font-bold bg-purple-500 bg-opacity-30">Somos líderes en el mercado mundial</p>
-                        <p class="text-2xl mb-10 leading-none bg-purple-400 bg-opacity-30">Tenemos una solución para cada tipo de cliente</p>
-                        <a href="#" class="bg-purple-800 py-4 px-8 text-white font-bold uppercase text-xs rounded hover:bg-gray-200 hover:text-gray-800">Contáctanos</a>
-                    </div>  
-                </div> 
-            <!-- container -->
-            <br>
-            </div>
-            <div id="slider-2" class="container mx-auto">
-                <div class="bg-cover bg-top  h-auto text-white py-24 px-10 object-fill" style="background-image: url(https://actualidadjuridica.doe.cl/wp-content/uploads/2021/08/Transporte.jpg)">  
-                    <div class="md:w-1/2 w-auto">
-                        <p class="font-bold text-sm uppercase bg-purple-400 bg-opacity-30 w-auto">Transportes</p>
-                        <p class="text-3xl font-bold bg-purple-500 bg-opacity-30 w-auto">Calidad donde estés</p>
-                        <p class="text-2xl mb-10 leading-none bg-purple-400 bg-opacity-30 w-auto">Conoce nuestros transportistas asociados</p>
-                        <a href="#" class="bg-purple-800 py-4 px-8 text-white font-bold uppercase text-xs rounded hover:bg-gray-200 hover:text-gray-800">Saber más</a>
-                    </div> 
-                </div> 
-            <!-- container -->
-            <br>
-            </div>
+        <div>
+            <h1 class="container mx-auto mt-8 text-2xl">Cat&aacute;logo</h1>
         </div>
-        <div  class="flex justify-between w-12 mx-auto pb-2">
-            <button id="sButton1" onclick="sliderButton1()" class="bg-purple-400 rounded-full w-4 pb-2 "></button>
-            <button id="sButton2" onclick="sliderButton2() " class="bg-purple-400 rounded-full w-4 p-2"></button>
+        </br>
+        <div class="container mx-auto">
+            <% 
+                CarroCompras carroCompras = session.getAttribute("carro") != null ?
+                                                (CarroCompras)session.getAttribute("carro") : null;
+                
+                if(carroCompras != null && carroCompras.getProductos().size()>0){
+                    
+                String clasesBoton = "cursor-pointer p-2 pl-5 pr-5 bg-green-500 text-white inline-block rounded hover:bg-green-400";
+
+                out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-5 font-bold text-gray-500'>");
+                out.print("<div class='col-span-1 text-center'>ID</div>");
+                out.print("<div class='col-span-1 text-center'>Nombre</div>");
+                out.print("<div class='col-span-1 text-center'>Precio</div>");
+                out.print("<div class='col-span-1 text-center'>Cantidad</div>");
+                out.print("<div class='col-span-1 text-center'>Eliminar</div>");
+                out.print("</div>");
+   
+                for(ProductoCarro producto : carroCompras.getProductos())
+                    {   
+
+                        out.print("<form class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-5' action='/maipogrande-web/procesar-eliminar-del-carro' method='POST'>");
+                        out.print("<div class='col-span-1 flex items-center justify-center'>"+producto.getProducto().getIdProducto()+"</div>");
+                        out.print("<div class='col-span-1 flex items-center justify-center'>"+producto.getProducto().getNombreProducto()+"</div>");
+                        out.print("<div class='col-span-1 flex items-center justify-center'>$"+producto.getProducto().getPrecio()+"</div>");
+                        out.print("<div class='col-span-1 flex items-center justify-center'>"+producto.getCantidad()+"</div>");
+                        out.print("<div class='col-span-1 flex items-center justify-center'>");
+                        out.print("<input type='submit' value='Eliminar del carro' class='"+clasesBoton+"'>");
+                        out.print("</div>");
+                        out.print("<input type='hidden' name='idProducto' value='"+producto.getProducto().getIdProducto()+"' />");
+                        out.print("</form>");
+                    }
+                }else{
+                    out.print("<div class='p-4 mb-2 rounded bg-gray-100 font-bold text-gray-500'>");
+                    out.print("No hay productos en el carro.");
+                    out.print("</div>");
+                }
+            %>
         </div>
+        <% 
+            if(request.getAttribute("eliminarDelCarroExitoso") != null){
+                out.print("<script>alert('Se ha eliminado el producto del carro.');</script> ");
+            }
+        %>
     </body>
 </html>
