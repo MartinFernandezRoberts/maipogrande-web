@@ -1,3 +1,12 @@
+<%-- 
+    Document   : index
+    Created on : 08-12-2021, 11:39:24
+    Author     : Asus
+--%>
+
+<%@page import="DTO.Cliente"%>
+<%@page import="Negocio.NegocioCliente"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -9,6 +18,11 @@
         <script src="main.js" type="text/javascript"> </script>
     </head>
     <body>
+        
+        <!-- ############################# -->
+        <!-- ######## INICIO MENU ######## -->
+        <!-- ############################# -->
+        
         <div class="flex bg-black">
         <!-- Nav -->
         <div
@@ -40,39 +54,68 @@
         </svg>
       </button>
 
-          <!-- Menu -->
+          <!-- Menu -->          
           <div
               class="hidden md:flex flex-col items-stretch w-screen text-xl text-center transform bg-black md:flex-row md:translate-y-0 md:space-x-5 md:items-center md:justify-end md:pr-3">
             
-              
               <a
               href="/maipogrande-web/"
               class="h-10 leading-10 border-b-2 border-dotted md:border-none">
                 Inicio
             </a>
-              <a
+<!--              <a
               href="/maipogrande-web/cargar-procesos-venta"
               class="h-10 leading-10 border-b-2 border-dotted md:border-none">
                 Procesos de Venta
-            </a>
-            <a
+            </a>-->
+<!--            <a
               href="#Nosotros"
               class="h-10 leading-10 border-b-2 border-dotted md:border-none">
                 Sobre Nosotrxs
-            </a>
-            <a
+            </a>-->
+<!--            <a
               href="#Servicios"
               class="h-10 leading-10 border-b-2 border-dotted md:border-none">
                 Servicios
-            </a>
-            <a
-              href="/maipogrande-web/login.html"
-              class="h-10 leading-10 border-b-2 border-dotted md:border-none md:bg-red-600 md:rounded-full md:w-24">
-                Acceso
-            </a>
+            </a>-->
+            <%
+                if(session.getAttribute("nombreUsuario") == null){
+                    out.print("<a href='/maipogrande-web/login.html' class='px-4 py-2 md:border-none md:bg-red-600 md:rounded-full'>Iniciar Sesión</a>");                
+                }else{
+                    switch(Integer.parseInt(session.getAttribute("idPerfil").toString())){
+                        case 2: // Cliente
+                            
+                            NegocioCliente negocioCliente = new NegocioCliente();
+                            Cliente cliente = negocioCliente.buscarClienteUsuario(Integer.parseInt(session.getAttribute("idUsuario").toString()));
+                            
+                            
+                            out.print("<a href='/maipogrande-web/cargar-catalogo' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Catálogo</a>");
+                            
+                            // Si es cliente interno, muestra ordenes de compra, si es externo o comerciante, muestra procesos de venta
+                            out.print(cliente.getIdTipo() == 2 ?
+                                    "<a href='/maipogrande-web/cargar-mis-ordenes-compra' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Mis Órdenes de Compra</a>"
+                                    :"<a href='/maipogrande-web/cargar-mis-procesos-venta' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Mis Procesos de Venta</a>");
+                            
+                            out.print("<a href='/maipogrande-web/carro' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Carro</a>");
+                            break;
+                            
+                        case 3: // Transportista
+                            out.print("<a href='/maipogrande-web/cargar-subastas' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Subastas de Transporte</a>");
+                            break;
+           
+                        case 4: // Productor
+                            out.print("<a href='/maipogrande-web/cargar-procesos-venta' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Procesos de Venta</a>");
+                            out.print("<a href='/maipogrande-web/cargar-postulaciones-productor' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Mis postulaciones</a>");
+                            break;
+                    }
+                    
+                    out.print("<a href='LogoutServlet' class='px-4 py-2 md:border-none md:bg-red-600 md:rounded-full'>Cerrar Sesión</a>");                
+                }
+            %>
+
           </div>
                     <!-- Menu mov-->
-          <div
+<!--          <div
               class="flex flex-col items-stretch w-screen text-xl text-center transform bg-black md:flex-row md:translate-y-0 md:space-x-5 md:items-center md:justify-end md:pr-3 md:hidden" 
               id="navM"
               style="display: none;" >
@@ -97,9 +140,14 @@
               class="h-10 leading-10 border-b-2 border-dotted md:border-none md:bg-red-600 md:rounded-full md:w-24">
                 Acceso
             </a>
-          </div>
+          </div>-->
         </div>
       </div>
+        
+    <!-- ############################ -->
+    <!-- ######### FIN MENU ######### -->
+    <!-- ############################ -->
+        
         <div class="sliderAx h-auto mt-20">
             <div id="slider-1" class="container mx-auto">
                 <div class="bg-cover bg-center  h-auto text-white py-24 px-10 object-fill" style="background-image: url(https://www.dosfarma.com/blog/wp-content/uploads/2020/02/vitaminas-1024x672.jpg)">

@@ -42,49 +42,46 @@ public class Procesar extends HttpServlet {
        NegocioUsuario negocioUsuario = new NegocioUsuario();
        Usuario usuario = negocioUsuario.iniciarSesion(nombreUsuario, password);
        
-       
-
-       
-       
-       
        if(usuario.getIdUsuario()!=0){
            
-           
-           int perfil = usuario.getIdPerfil();
+           int idPerfil = usuario.getIdPerfil();
            int idUsuario = usuario.getIdUsuario();
            
            NegocioPerfil negocioPerfil = new NegocioPerfil();
-           Perfil perfilUsuario = negocioPerfil.buscarPerfil(perfil);
-           
-           
+           Perfil perfilUsuario = negocioPerfil.buscarPerfil(idPerfil);
            
            HttpSession session = request.getSession();
-           session.setAttribute("name",nombreUsuario);
-           session.setAttribute("perfilUsuario", perfilUsuario.getDescPerfil());
+           session.setAttribute("nombreUsuario",nombreUsuario);
+           session.setAttribute("idUsuario",idUsuario);
+           session.setAttribute("idPerfil", idPerfil);
+           session.setAttribute("descPerfil", perfilUsuario.getDescPerfil());
+                
+           request.getRequestDispatcher("index.jsp").forward(request, response);
            
-           switch(perfil){
-               case 2:
-                NegocioCliente negocioCliente = new NegocioCliente();
-                Cliente cliente = negocioCliente.buscarClienteUsuario(idUsuario);
-                
-                NegocioTipoCliente negocioTipoCliente = new NegocioTipoCliente();
-                TipoCliente tipoCliente = negocioTipoCliente.buscarTipoCliente(cliente.getIdTipo());
-                
-                
-                session.setAttribute("tipoCliente",tipoCliente.getDescTipo());
-                session.setAttribute("giroCliente",cliente.getGiro());
-                
-                request.getRequestDispatcher("cliente.jsp").forward(request, response);
-                break;
-                 case 3:
-                request.getRequestDispatcher("transportista.jsp").forward(request, response);
-                break;
-                 case 4:
-                request.getRequestDispatcher("productor.jsp").forward(request, response);
-                break;
-                 default:
-                     request.getRequestDispatcher("home.jsp").forward(request, response);
-           }
+           
+//           switch(perfil){
+//               case 2:
+//                NegocioCliente negocioCliente = new NegocioCliente();
+//                Cliente cliente = negocioCliente.buscarClienteUsuario(idUsuario);
+//                
+//                NegocioTipoCliente negocioTipoCliente = new NegocioTipoCliente();
+//                TipoCliente tipoCliente = negocioTipoCliente.buscarTipoCliente(cliente.getIdTipo());
+//                
+//                
+//                session.setAttribute("tipoCliente",tipoCliente.getDescTipo());
+//                session.setAttribute("giroCliente",cliente.getGiro());
+//                
+//                request.getRequestDispatcher("cliente.jsp").forward(request, response);
+//                break;
+//                 case 3:
+//                request.getRequestDispatcher("transportista.jsp").forward(request, response);
+//                break;
+//                 case 4:
+//                request.getRequestDispatcher("productor.jsp").forward(request, response);
+//                break;
+//                 default:
+//                     request.getRequestDispatcher("home.jsp").forward(request, response);
+//           }
            
            
        }else{
