@@ -16,6 +16,14 @@
         <servlet-name>CargarCatalogo</servlet-name>
         <servlet-class>servlets.CargarCatalogo</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProcesarVerCarro</servlet-name>
+        <servlet-class>servlets.ProcesarVerCarro</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProcesarEliminarDelCarro</servlet-name>
+        <servlet-class>servlets.ProcesarEliminarDelCarro</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Procesar</servlet-name>
         <url-pattern>/procesar</url-pattern>
@@ -31,6 +39,14 @@
     <servlet-mapping>
         <servlet-name>CargarCatalogo</servlet-name>
         <url-pattern>/procesar-cargar-catalogo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProcesarVerCarro</servlet-name>
+        <url-pattern>/procesar-ver-carro</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProcesarEliminarDelCarro</servlet-name>
+        <url-pattern>/procesar-eliminar-del-carro</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

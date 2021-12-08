@@ -27,8 +27,13 @@ public class CarroCompras {
         getProductos().add(productoCarro);
     }
     
-    public void eliminarDelCarro(ProductoCarro productoCarro){     
-        getProductos().remove(productoCarro);
+    public void eliminarDelCarro(int idProducto){
+        for(ProductoCarro productoCarro : getProductos()){
+            if(productoCarro.getProducto().getIdProducto() == idProducto) {
+                getProductos().remove(productoCarro);
+                break;
+            }
+        }      
     }
 
     /**

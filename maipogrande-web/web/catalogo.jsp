@@ -102,11 +102,13 @@
                             CarroCompras carroCompras = session.getAttribute("carro") != null ?
                                                             (CarroCompras)session.getAttribute("carro") : null;
                             int cantidadProductos = 0;
-                            for(ProductoCarro producto : carroCompras.getProductos()){
-                                cantidadProductos += producto.getCantidad();
+                            if(carroCompras != null ){
+                                for(ProductoCarro producto : carroCompras.getProductos()){
+                                    cantidadProductos += producto.getCantidad();
+                                }
                             }
                             
-                            out.print("<a href='/maipogrande-web/carro' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Carro"+(cantidadProductos>0?" ("+cantidadProductos+")":"")+"</a>");
+                            out.print("<a href='/maipogrande-web/procesar-ver-carro' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Carro"+(cantidadProductos>0?" ("+cantidadProductos+")":"")+"</a>");
                             break;
                             
                         case 3: // Transportista
@@ -178,16 +180,18 @@
    
                 for(Producto producto : productos)
                 {           
-                    out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-5'>");
+                    out.print("<form class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-5' action='/maipogrande-web/procesar-agregar-al-carro' method='POST'>");
                     out.print("<div class='col-span-1 flex items-center justify-center'>"+producto.getIdProducto()+"</div>");
                     out.print("<div class='col-span-1 flex items-center justify-center'>"+producto.getNombreProducto()+"</div>");
                     out.print("<div class='col-span-1 flex items-center justify-center'>$"+producto.getPrecio()+"</div>");
-                    out.print("<form class='col-span-2 flex items-center justify-around' action='/maipogrande-web/procesar-agregar-al-carro' method='POST'>");
-                    out.print("<input type='hidden' name='idProducto' value='"+producto.getIdProducto()+"' />");
+                    out.print("<div class='col-span-1 flex items-center justify-center'>");
                     out.print("<input type='number' name='cantidad' required class='border-2 border-gray-300 hover:border-gray-400'/>");
-                    out.print("<input type='submit' value='Agregar al carro' class='"+clasesBoton+"'>");
-                    out.print("</form>");
                     out.print("</div>");
+                    out.print("<div class='col-span-1 flex items-center justify-center'>");
+                    out.print("<input type='submit' value='Agregar al carro' class='"+clasesBoton+"'>");
+                    out.print("</div>");
+                    out.print("<input type='hidden' name='idProducto' value='"+producto.getIdProducto()+"' />");
+                    out.print("</form>");
                 }
             %>
         </div>
