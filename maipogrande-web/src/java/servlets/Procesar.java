@@ -55,6 +55,7 @@ public class Procesar extends HttpServlet {
            session.setAttribute("idUsuario",idUsuario);
            session.setAttribute("idPerfil", idPerfil);
            session.setAttribute("descPerfil", perfilUsuario.getDescPerfil());
+           session.setAttribute("carro", null);
                 
            request.getRequestDispatcher("index.jsp").forward(request, response);
            
