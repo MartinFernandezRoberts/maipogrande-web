@@ -1,9 +1,12 @@
 <%-- 
-    Document   : carro
-    Created on : 08-12-2021, 16:35:16
+    Document   : mis-ordenes-compra
+    Created on : 09-12-2021, 10:47:19
     Author     : Asus
 --%>
 
+<%@page import="Negocio.NegocioCabeceraOrdenCompra"%>
+<%@page import="DTO.CabeceraOrdenCompra"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="DTO.ProductoCarro"%>
 <%@page import="DTO.CarroCompras"%>
 <%@page import="DTO.Cliente"%>
@@ -115,77 +118,44 @@
     <!-- ############################ -->
     <!-- ######### FIN MENU ######### -->
     <!-- ############################ -->
-        
         <div>
-            <h1 class="container mx-auto mt-8 text-2xl">Carro de Compras</h1>
+            <h1 class="container mx-auto mt-8 text-2xl">Mis Órdenes de Compra</h1>
         </div>
         </br>
         <div class="container mx-auto">
             <% 
-                CarroCompras carroCompras = session.getAttribute("carro") != null ?
-                                                (CarroCompras)session.getAttribute("carro") : null;
-                
-                if(carroCompras != null && carroCompras.getProductos().size()>0){
-                    
-                String clasesBoton = "cursor-pointer p-2 pl-5 pr-5 bg-green-500 text-white inline-block rounded hover:bg-green-400";
+                ArrayList<CabeceraOrdenCompra> ordenesCompra = (ArrayList<CabeceraOrdenCompra>)request.getAttribute("ordenesCompra");
+                if(ordenesCompra==null){
+                    int idUsuario = Integer.parseInt(session.getAttribute("idUsuario").toString());
 
-                out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-5 font-bold text-gray-500'>");
+                    NegocioCliente negocioCliente = new NegocioCliente();
+                    Cliente cliente = negocioCliente.buscarClienteUsuario(idUsuario);
+
+                    NegocioCabeceraOrdenCompra negocioCabeceraOrdenCompra = new NegocioCabeceraOrdenCompra();
+                    ordenesCompra = negocioCabeceraOrdenCompra.listarOrdenesCompraCliente(cliente.getRut());        
+                }
+
+                String clasesBoton = "p-2 pl-5 pr-5 bg-green-500 text-white inline-block rounded hover:bg-green-400";
+
+                out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-3 font-bold text-gray-500'>");
                 out.print("<div class='col-span-1 text-center'>ID</div>");
-                out.print("<div class='col-span-1 text-center'>Nombre</div>");
-                out.print("<div class='col-span-1 text-center'>Precio</div>");
-                out.print("<div class='col-span-1 text-center'>Cantidad</div>");
-                out.print("<div class='col-span-1 text-center'>Eliminar</div>");
+                out.print("<div class='col-span-1 text-center'>Fecha Emisión</div>");
+                out.print("<div class='col-span-1 text-center'>Ver Detalles</div>");
                 out.print("</div>");
    
-                for(ProductoCarro producto : carroCompras.getProductos())
-                    {   
-
-                        out.print("<form class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-5' action='/maipogrande-web/procesar-eliminar-del-carro' method='POST'>");
-                        out.print("<div class='col-span-1 flex items-center justify-center'>"+producto.getProducto().getIdProducto()+"</div>");
-                        out.print("<div class='col-span-1 flex items-center justify-center'>"+producto.getProducto().getNombreProducto()+"</div>");
-                        out.print("<div class='col-span-1 flex items-center justify-center'>$"+producto.getProducto().getPrecio()+"</div>");
-                        out.print("<div class='col-span-1 flex items-center justify-center'>"+producto.getCantidad()+"</div>");
-                        out.print("<div class='col-span-1 flex items-center justify-center'>");
-                        out.print("<input type='submit' value='Eliminar del carro' class='"+clasesBoton+"'>");
-                        out.print("</div>");
-                        out.print("<input type='hidden' name='idProducto' value='"+producto.getProducto().getIdProducto()+"' />");
-                        out.print("</form>");
-                    }
-                
-                NegocioCliente negocioCliente = new NegocioCliente();
-                Cliente cliente = negocioCliente.buscarClienteUsuario(Integer.parseInt(session.getAttribute("idUsuario").toString()));
-                            
-                if(cliente.getIdTipo() == 2){
-                    // Si es cliente interno, crea orden de compra
-                    out.print("<form action='/maipogrande-web/procesar-crear-orden-compra' method='POST'>");
-                }else{
-                    // Si es cliente externo o comerciante, crea proceso de venta
-                    out.print("<form action='/maipogrande-web/procesar-crear-proceso-venta' method='POST'>");
-                }
-                
-                
-                if(cliente.getIdTipo() != 2){
-                    out.print("<div class='p-4 mb-2 rounded bg-gray-100 flex flex-col'>");
-                    out.print("<label class='mb-2 font-bold text-gray-500' for='observaciones'>Observaciones:</label>");
-                    out.print("<input class='p-2 border-2 border-gray-300 hover:border-gray-400' type='text' name='observaciones' id='observaciones'/>");    
-                    out.print("</div>");                
-                }
-                
-                out.print("<div class='container mx-auto p-4 flex justify-end'>");
-                out.print("<input type='submit' value='Ingresar Solicitud de Compra' class='p-2 pl-5 pr-5 bg-green-500 text-white inline-block cursor-pointer rounded hover:bg-green-400 font-bold uppercase'/>");
-                out.print("</div>");
-                out.print("</form>");
-                }else{
-                    out.print("<div class='p-4 mb-2 rounded bg-gray-100 font-bold text-gray-500'>");
-                    out.print("No hay productos en el carro.");
+                for(CabeceraOrdenCompra ordenCompra : ordenesCompra)
+                {
+                    out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-3'>");
+                    out.print("<div class='col-span-1 flex items-center justify-center'>"+ordenCompra.getIdCabeceraOrdenCompra()+"</div>");
+                    out.print("<div class='col-span-1 flex items-center justify-center'>"+ordenCompra.getFechaEmision()+"</div>");
+                    out.print("<div class='col-span-1 flex items-center justify-center'>");
+                    out.print("<a class='"+clasesBoton+"' href='/maipogrande-web/ver-orden-compra?idOrdenCompra="+ordenCompra.getIdCabeceraOrdenCompra()+"'>");
+                    out.print("Ver Detalles");
+                    out.print("</a>");
+                    out.print("</div>");
                     out.print("</div>");
                 }
             %>
         </div>
-        <% 
-            if(request.getAttribute("eliminarDelCarroExitoso") != null){
-                out.print("<script>alert('Se ha eliminado el producto del carro.');</script> ");
-            }
-        %>
     </body>
 </html>
