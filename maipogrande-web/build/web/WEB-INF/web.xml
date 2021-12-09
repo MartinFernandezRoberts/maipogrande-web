@@ -32,6 +32,18 @@
         <servlet-name>CargarMisProcesosVenta</servlet-name>
         <servlet-class>servlets.CargarMisProcesosVenta</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProcesarCrearOrdenCompra</servlet-name>
+        <servlet-class>servlets.ProcesarCrearOrdenCompra</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CargarMisOrdenesCompra</servlet-name>
+        <servlet-class>servlets.CargarMisOrdenesCompra</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VerOrdenCompra</servlet-name>
+        <servlet-class>servlets.VerOrdenCompra</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Procesar</servlet-name>
         <url-pattern>/procesar</url-pattern>
@@ -63,6 +75,18 @@
     <servlet-mapping>
         <servlet-name>CargarMisProcesosVenta</servlet-name>
         <url-pattern>/cargar-mis-procesos-venta</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProcesarCrearOrdenCompra</servlet-name>
+        <url-pattern>/procesar-crear-orden-compra</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CargarMisOrdenesCompra</servlet-name>
+        <url-pattern>/cargar-mis-ordenes-compra</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VerOrdenCompra</servlet-name>
+        <url-pattern>/ver-orden-compra</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

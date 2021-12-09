@@ -1,9 +1,15 @@
 <%-- 
-    Document   : carro
-    Created on : 08-12-2021, 16:35:16
+    Document   : detalle-orden-compra
+    Created on : 09-12-2021, 11:20:53
     Author     : Asus
 --%>
 
+<%@page import="DTO.Producto"%>
+<%@page import="Negocio.NegocioProducto"%>
+<%@page import="DTO.CabeceraOrdenCompra"%>
+<%@page import="DTO.DetalleOrdenCompra"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="DTO.ProductoCarro"%>
 <%@page import="DTO.CarroCompras"%>
 <%@page import="DTO.Cliente"%>
@@ -13,7 +19,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Maipo Grande - Procesos de venta</title>
+        <title>Maipo Grande - Detalle Proceso de Venta</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     </head>
@@ -115,77 +121,61 @@
     <!-- ############################ -->
     <!-- ######### FIN MENU ######### -->
     <!-- ############################ -->
-        
         <div>
-            <h1 class="container mx-auto mt-8 text-2xl">Carro de Compras</h1>
+            <h1 class="container mx-auto mt-8 text-2xl">Orden de Compra</h1>
         </div>
         </br>
-        <div class="container mx-auto">
+        <div class="container mx-auto bg-gray-100 p-4 mb-4">
+            <h2 class="container mx-auto text-xl">Datos</h2>
+            <br/>
             <% 
-                CarroCompras carroCompras = session.getAttribute("carro") != null ?
-                                                (CarroCompras)session.getAttribute("carro") : null;
-                
-                if(carroCompras != null && carroCompras.getProductos().size()>0){
-                    
-                String clasesBoton = "cursor-pointer p-2 pl-5 pr-5 bg-green-500 text-white inline-block rounded hover:bg-green-400";
-
-                out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-5 font-bold text-gray-500'>");
-                out.print("<div class='col-span-1 text-center'>ID</div>");
-                out.print("<div class='col-span-1 text-center'>Nombre</div>");
-                out.print("<div class='col-span-1 text-center'>Precio</div>");
-                out.print("<div class='col-span-1 text-center'>Cantidad</div>");
-                out.print("<div class='col-span-1 text-center'>Eliminar</div>");
-                out.print("</div>");
-   
-                for(ProductoCarro producto : carroCompras.getProductos())
-                    {   
-
-                        out.print("<form class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-5' action='/maipogrande-web/procesar-eliminar-del-carro' method='POST'>");
-                        out.print("<div class='col-span-1 flex items-center justify-center'>"+producto.getProducto().getIdProducto()+"</div>");
-                        out.print("<div class='col-span-1 flex items-center justify-center'>"+producto.getProducto().getNombreProducto()+"</div>");
-                        out.print("<div class='col-span-1 flex items-center justify-center'>$"+producto.getProducto().getPrecio()+"</div>");
-                        out.print("<div class='col-span-1 flex items-center justify-center'>"+producto.getCantidad()+"</div>");
-                        out.print("<div class='col-span-1 flex items-center justify-center'>");
-                        out.print("<input type='submit' value='Eliminar del carro' class='"+clasesBoton+"'>");
-                        out.print("</div>");
-                        out.print("<input type='hidden' name='idProducto' value='"+producto.getProducto().getIdProducto()+"' />");
-                        out.print("</form>");
-                    }
+                List<DetalleOrdenCompra> detallesOrdenCompra = (ArrayList<DetalleOrdenCompra>)request.getAttribute("listaDetallesOrdenCompra");
+                CabeceraOrdenCompra cabeceraOrdenCompra = (CabeceraOrdenCompra)request.getAttribute("cabeceraOrdenCompra");
                 
                 NegocioCliente negocioCliente = new NegocioCliente();
-                Cliente cliente = negocioCliente.buscarClienteUsuario(Integer.parseInt(session.getAttribute("idUsuario").toString()));
-                            
-                if(cliente.getIdTipo() == 2){
-                    // Si es cliente interno, crea orden de compra
-                    out.print("<form action='/maipogrande-web/procesar-crear-orden-compra' method='POST'>");
-                }else{
-                    // Si es cliente externo o comerciante, crea proceso de venta
-                    out.print("<form action='/maipogrande-web/procesar-crear-proceso-venta' method='POST'>");
-                }
-                
-                
-                if(cliente.getIdTipo() != 2){
-                    out.print("<div class='p-4 mb-2 rounded bg-gray-100 flex flex-col'>");
-                    out.print("<label class='mb-2 font-bold text-gray-500' for='observaciones'>Observaciones:</label>");
-                    out.print("<input class='p-2 border-2 border-gray-300 hover:border-gray-400' type='text' name='observaciones' id='observaciones'/>");    
-                    out.print("</div>");                
-                }
-                
-                out.print("<div class='container mx-auto p-4 flex justify-end'>");
-                out.print("<input type='submit' value='Ingresar Solicitud de Compra' class='p-2 pl-5 pr-5 bg-green-500 text-white inline-block cursor-pointer rounded hover:bg-green-400 font-bold uppercase'/>");
-                out.print("</div>");
-                out.print("</form>");
-                }else{
-                    out.print("<div class='p-4 mb-2 rounded bg-gray-100 font-bold text-gray-500'>");
-                    out.print("No hay productos en el carro.");
-                    out.print("</div>");
-                }
+                Cliente cliente = negocioCliente.buscarCliente(cabeceraOrdenCompra.getRutCliente());
+
+                out.print("<p>ID de Orden: "+cabeceraOrdenCompra.getIdCabeceraOrdenCompra()+"</p>");
+                out.print("<p>Rut Cliente: "+cliente.getRut()+"-"+cliente.getDvRut()+"</p>");
+                out.print("<p>Razon Social: "+cliente.getRazonSocial()+"</p>");
+                out.print("<p>Fecha Emisión: "+cabeceraOrdenCompra.getFechaEmision()+"</p>");
             %>
         </div>
-        <% 
-            if(request.getAttribute("eliminarDelCarroExitoso") != null){
-                out.print("<script>alert('Se ha eliminado el producto del carro.');</script> ");
-            }
-        %>
+        <div class="container mx-auto bg-gray-100 p-4 mb-4">
+           <h2 class="container mx-auto text-xl">Productos</h2>
+           <br/>
+           <% 
+                out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-6 font-bold text-gray-500'>");
+                out.print("<div class='col-span-1 text-center'>ID</div>");
+                out.print("<div class='col-span-2 text-center'>Nombre</div>");
+                out.print("<div class='col-span-1 text-center'>Cantidad</div>");
+                out.print("<div class='col-span-1 text-center'>Precio Unitario</div>");
+                out.print("<div class='col-span-1 text-center'>Total</div>");
+                out.print("</div>");
+                
+                int total = 0;
+                
+                for(DetalleOrdenCompra detalleOrdenCompra : detallesOrdenCompra)
+                {
+                    NegocioProducto negocioProducto = new NegocioProducto();
+                    Producto producto = negocioProducto.buscarProducto(detalleOrdenCompra.getIdProducto());
+                    
+                    out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-6'>");
+                    out.print("<div class='col-span-1 flex items-center justify-center'>"+producto.getIdProducto()+"</div>");
+                    out.print("<div class='col-span-2 flex items-center justify-center'>"+producto.getNombreProducto()+"</div>");
+                    out.print("<div class='col-span-1 flex items-center justify-center'>"+detalleOrdenCompra.getCantidad()+"</div>");
+                    out.print("<div class='col-span-1 flex items-center justify-center'>"+detalleOrdenCompra.getPrecioUnitario()+"</div>");
+                    out.print("<div class='col-span-1 flex items-center justify-center'>$"+detalleOrdenCompra.getCantidad()*detalleOrdenCompra.getPrecioUnitario()+"</div>");
+                    out.print("</div>");
+                    
+                    total += detalleOrdenCompra.getCantidad()*detalleOrdenCompra.getPrecioUnitario();
+                }
+                
+                out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-6'>");
+                out.print("<div class='col-span-5 flex items-center justify-end font-bold'>Total</div>");
+                out.print("<div class='col-span-1 flex items-center justify-center font-bold'>$"+total+"</div>");
+                out.print("</div>");
+            %>
+        </div>
     </body>
 </html>

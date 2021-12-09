@@ -70,14 +70,14 @@ public class NegocioDetalleProcesoVenta {
         {
            while(this.getCon().getDbResultSet().next())
            {
-                DetalleProcesoVenta producto = new DetalleProcesoVenta();
-                producto.setIdDetalleVenta(this.getCon().getDbResultSet().getInt("ID_DETALLE_PV"));
-                producto.setIdProducto(this.getCon().getDbResultSet().getInt("ID_PRODUCTO"));
-                producto.setCantidad(this.getCon().getDbResultSet().getInt("CANTIDAD"));
-                producto.setPrecioUnitario(this.getCon().getDbResultSet().getInt("PRECIO_UNITARIO"));
-                producto.setIdCabeceraVenta(this.getCon().getDbResultSet().getInt("ID_CABECERA_PV"));
+                DetalleProcesoVenta detalleProcesoVenta = new DetalleProcesoVenta();
+                detalleProcesoVenta.setIdDetalleVenta(this.getCon().getDbResultSet().getInt("ID_DETALLE_PV"));
+                detalleProcesoVenta.setIdProducto(this.getCon().getDbResultSet().getInt("ID_PRODUCTO"));
+                detalleProcesoVenta.setCantidad(this.getCon().getDbResultSet().getInt("CANTIDAD"));
+                detalleProcesoVenta.setPrecioUnitario(this.getCon().getDbResultSet().getInt("PRECIO_UNITARIO"));
+                detalleProcesoVenta.setIdCabeceraVenta(this.getCon().getDbResultSet().getInt("ID_CABECERA_PV"));
 
-                listaDetallesProcesoVenta.add(producto);
+                listaDetallesProcesoVenta.add(detalleProcesoVenta);
            } //Fin while
         }
         catch(Exception ex)
