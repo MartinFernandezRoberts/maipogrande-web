@@ -44,6 +44,22 @@
         <servlet-name>VerOrdenCompra</servlet-name>
         <servlet-class>servlets.VerOrdenCompra</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CargarSubastasTransporte</servlet-name>
+        <servlet-class>servlets.CargarSubastasTransporte</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VerSubastaTransporte</servlet-name>
+        <servlet-class>servlets.VerSubastaTransporte</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CargarMisPostulaciones</servlet-name>
+        <servlet-class>servlets.CargarMisPostulaciones</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VerPostulacionSubasta</servlet-name>
+        <servlet-class>servlets.VerPostulacionSubasta</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Procesar</servlet-name>
         <url-pattern>/procesar</url-pattern>
@@ -87,6 +103,22 @@
     <servlet-mapping>
         <servlet-name>VerOrdenCompra</servlet-name>
         <url-pattern>/ver-orden-compra</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CargarSubastasTransporte</servlet-name>
+        <url-pattern>/cargar-subastas-transporte</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VerSubastaTransporte</servlet-name>
+        <url-pattern>/ver-subasta-transporte</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CargarMisPostulaciones</servlet-name>
+        <url-pattern>/cargar-mis-postulaciones</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VerPostulacionSubasta</servlet-name>
+        <url-pattern>/ver-postulacion-subasta</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

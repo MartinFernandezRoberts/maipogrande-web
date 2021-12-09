@@ -44,16 +44,17 @@ public class NegocioCabeceraSubasta {
     public void insertarCabeceraSubasta(CabeceraSubasta cabeceraSubasta)
     {
         this.configurarConexion();
-        this.getCon().setCadenaSQL("INSERT INTO " + this.getCon().getNombreTabla()+
-                                     " (ID_CABECERA_SUBASTA,FECHA_LIMITE_ENTREGA,ID_COMUNA,ID_CABECERA_PV,ID_ESTADO_SUBASTA) "
-                                             + "VALUES ("+
-                                    cabeceraSubasta.getIdCabeceraSubasta()+ ",'"+
-                                    cabeceraSubasta.getFechaLimiteEntrega()+ "',"+ 
-                                    cabeceraSubasta.getIdComuna()+","+
-                                    cabeceraSubasta.getIdCabeceraProcesoVenta()+","+
-                                    cabeceraSubasta.getIdEstadoSubasta()+");");
-        this.getCon().setEsSelect(false);
-        this.getCon().conectar();
+        
+        String[] parametros = {"FECHA_LIMITE_ENTREGA", "ID_COMUNA", "ID_CABECERA_PV", "ID_ESTADO_SUBASTA"};
+        String[] tipos = {"date","int","int","int"};
+        Object[] valores = {
+            cabeceraSubasta.getFechaLimiteEntrega(),
+            cabeceraSubasta.getIdComuna(),
+            cabeceraSubasta.getIdCabeceraProcesoVenta(),
+            cabeceraSubasta.getIdEstadoSubasta()
+        };
+
+        this.getCon().ejecutarProcedimiento("SP_INGRESAR_CAB_SUBASTA", parametros, tipos, valores);
     }
     
     public CabeceraSubasta buscarCabeceraSubasta(int idCabeceraSubasta)

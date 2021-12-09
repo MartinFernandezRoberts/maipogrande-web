@@ -1,9 +1,16 @@
 <%-- 
-    Document   : carro
-    Created on : 08-12-2021, 16:35:16
+    Document   : subastas-transporte
+    Created on : 09-12-2021, 13:05:24
     Author     : Asus
 --%>
 
+<%@page import="DTO.Comuna"%>
+<%@page import="Negocio.NegocioComuna"%>
+<%@page import="DTO.EstadoSubasta"%>
+<%@page import="Negocio.NegocioEstadoSubasta"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="DTO.CabeceraSubasta"%>
 <%@page import="DTO.ProductoCarro"%>
 <%@page import="DTO.CarroCompras"%>
 <%@page import="DTO.Cliente"%>
@@ -95,7 +102,8 @@
                             break;
                             
                         case 3: // Transportista
-                            out.print("<a href='/maipogrande-web/cargar-subastas' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Subastas de Transporte</a>");
+                            out.print("<a href='/maipogrande-web/cargar-subastas-transporte' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Subastas de Transporte</a>");
+                            out.print("<a href='/maipogrande-web/cargar-mis-postulaciones' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Mis Postulaciones</a>");
                             break;
            
                         case 4: // Productor
@@ -115,85 +123,53 @@
     <!-- ############################ -->
     <!-- ######### FIN MENU ######### -->
     <!-- ############################ -->
-        
+    
         <div>
-            <h1 class="container mx-auto mt-8 text-2xl">Carro de Compras</h1>
+            <h1 class="container mx-auto mt-8 text-2xl">Subastas de Transporte</h1>
         </div>
         </br>
         <div class="container mx-auto">
             <% 
-                CarroCompras carroCompras = session.getAttribute("carro") != null ?
-                                                (CarroCompras)session.getAttribute("carro") : null;
-                
-                if(carroCompras != null && carroCompras.getProductos().size()>0){
-                    
-                String clasesBoton = "cursor-pointer p-2 pl-5 pr-5 bg-green-500 text-white inline-block rounded hover:bg-green-400";
+                List<CabeceraSubasta> subastasTransporte = (ArrayList<CabeceraSubasta>)request.getAttribute("subastasTransporte");
 
-                out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-5 font-bold text-gray-500'>");
+                String clasesBoton = "p-2 pl-5 pr-5 bg-green-500 text-white inline-block rounded hover:bg-green-400";
+
+                out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-7 font-bold text-gray-500'>");
                 out.print("<div class='col-span-1 text-center'>ID</div>");
-                out.print("<div class='col-span-1 text-center'>Nombre</div>");
-                out.print("<div class='col-span-1 text-center'>Precio</div>");
-                out.print("<div class='col-span-1 text-center'>Cantidad</div>");
-                out.print("<div class='col-span-1 text-center'>Eliminar</div>");
+                out.print("<div class='col-span-1 text-center'>Fecha Limite Entrega</div>");
+                out.print("<div class='col-span-2 text-center'>Comuna</div>");
+                out.print("<div class='col-span-1 text-center'>Proceso de Venta</div>");
+                out.print("<div class='col-span-1 text-center'>Estado</div>");
+                out.print("<div class='col-span-1 text-center'>Detalles</div>");
                 out.print("</div>");
    
-                for(ProductoCarro producto : carroCompras.getProductos())
-                    {   
-
-                        out.print("<form class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-5' action='/maipogrande-web/procesar-eliminar-del-carro' method='POST'>");
-                        out.print("<div class='col-span-1 flex items-center justify-center'>"+producto.getProducto().getIdProducto()+"</div>");
-                        out.print("<div class='col-span-1 flex items-center justify-center'>"+producto.getProducto().getNombreProducto()+"</div>");
-                        out.print("<div class='col-span-1 flex items-center justify-center'>$"+producto.getProducto().getPrecio()+"</div>");
-                        out.print("<div class='col-span-1 flex items-center justify-center'>"+producto.getCantidad()+"</div>");
-                        out.print("<div class='col-span-1 flex items-center justify-center'>");
-                        out.print("<input type='submit' value='Eliminar del carro' class='"+clasesBoton+"'>");
-                        out.print("</div>");
-                        out.print("<input type='hidden' name='idProducto' value='"+producto.getProducto().getIdProducto()+"' />");
-                        out.print("</form>");
-                    }
-                
-                NegocioCliente negocioCliente = new NegocioCliente();
-                Cliente cliente = negocioCliente.buscarClienteUsuario(Integer.parseInt(session.getAttribute("idUsuario").toString()));
-                            
-                if(cliente.getIdTipo() == 2){
-                    // Si es cliente interno, crea orden de compra
-                    out.print("<form action='/maipogrande-web/procesar-crear-orden-compra' method='POST'>");
-                }else{
-                    // Si es cliente externo o comerciante, crea proceso de venta
-                    out.print("<form action='/maipogrande-web/procesar-crear-proceso-venta' method='POST'>");
-                }
-                
-                
-                if(cliente.getIdTipo() != 2){
-                    out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-3'>");
+                for(CabeceraSubasta subastaTransporte : subastasTransporte)
+                {
+                    NegocioComuna negocioComuna = new NegocioComuna();
+                    Comuna comuna = negocioComuna.buscarComuna(subastaTransporte.getIdComuna());
                     
-                    out.print("<div class='flex items-center p-4 col-span-1'>");
-                    out.print("<label class='mr-2 font-bold text-gray-500' for='fechaLimiteEntrega'>Fecha Límite de Entrega:</label>");
-                    out.print("<input class='flex-1 p-2 border-2 border-gray-300 hover:border-gray-400' type='date' name='fechaLimiteEntrega' id='fechaLimiteEntrega' required/>");    
-                    out.print("</div>");                
-                    
-                    out.print("<div class='flex items-center p-4 col-span-2'>");
-                    out.print("<label class='mr-2 font-bold text-gray-500' for='observaciones'>Observaciones:</label>");
-                    out.print("<input class='flex-1 p-2 border-2 border-gray-300 hover:border-gray-400' type='text' name='observaciones' id='observaciones'/>");    
-                    out.print("</div>");                
-                    
-                    out.print("</div>");                
-                }
-                
-                out.print("<div class='container mx-auto p-4 flex justify-end'>");
-                out.print("<input type='submit' value='Ingresar Solicitud de Compra' class='p-2 pl-5 pr-5 bg-green-500 text-white inline-block cursor-pointer rounded hover:bg-green-400 font-bold uppercase'/>");
-                out.print("</div>");
-                out.print("</form>");
-                }else{
-                    out.print("<div class='p-4 mb-2 rounded bg-gray-100 font-bold text-gray-500'>");
-                    out.print("No hay productos en el carro.");
+                    NegocioEstadoSubasta negocioEstadoSubasta = new NegocioEstadoSubasta();
+                    EstadoSubasta estado = negocioEstadoSubasta.buscarEstadoSubasta(subastaTransporte.getIdEstadoSubasta());
+           
+                    out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-7'>");
+                    out.print("<div class='col-span-1 flex items-center justify-center'>"+subastaTransporte.getIdCabeceraSubasta()+"</div>");
+                    out.print("<div class='col-span-1 flex items-center justify-center'>"+subastaTransporte.getFechaLimiteEntrega()+"</div>");
+                    out.print("<div class='col-span-2 flex items-center justify-center'>"+comuna.getNombreComuna()+"</div>");
+                    out.print("<div class='col-span-1 flex items-center justify-center'>"+subastaTransporte.getIdCabeceraProcesoVenta()+"</div>");
+                    out.print("<div class='col-span-1 flex items-center justify-center'>"+estado.getDescripcion()+"</div>");
+                    out.print("<div class='col-span-1 flex items-center justify-center'>");
+                    out.print("<a class='"+clasesBoton+"' href='/maipogrande-web/ver-subasta-transporte?idSubastaTransporte="+subastaTransporte.getIdCabeceraSubasta()+"'>");
+                    out.print("Ver");
+                    out.print("</a>");
+                    out.print("</div>");
                     out.print("</div>");
                 }
             %>
         </div>
+
         <% 
-            if(request.getAttribute("eliminarDelCarroExitoso") != null){
-                out.print("<script>alert('Se ha eliminado el producto del carro.');</script> ");
+            if(request.getAttribute("postulacionExitosa") != null){
+                out.print("<script>alert('Postulación ingresada con éxito.');</script> ");
             }
         %>
     </body>

@@ -6,13 +6,13 @@
 package Negocio;
 
 import Conexion.Conexion;
-import DTO.EstadoSubasta;
+import DTO.Comuna;
 
 /**
  *
  * @author Asus
  */
-public class NegocioEstadoSubasta {
+public class NegocioComuna {
     private Conexion con;
 
     /**
@@ -33,35 +33,34 @@ public class NegocioEstadoSubasta {
     {
         this.setCon(new Conexion());
         this.getCon().setNombreBaseDeDatos("jdbc:oracle:thin:@localhost:1521:XE");
-        this.getCon().setNombreTabla("ESTADO_SUBASTA");
+        this.getCon().setNombreTabla("COMUNA");
         this.getCon().setCadenaConexion("oracle.jdbc.driver.OracleDriver");
         this.getCon().setUsuario("maipogrande");
         this.getCon().setPass("123");
     } //Fin configurar
     
-    public EstadoSubasta buscarEstadoSubasta(int idEstado)
-    {
-        EstadoSubasta estadoSubasta = new EstadoSubasta();
+    public Comuna buscarComuna(int idComuna){
+        Comuna comuna = new Comuna();
         this.configurarConexion();
         this.getCon().setCadenaSQL("SELECT * FROM " + this.getCon().getNombreTabla()+
-                                     " WHERE ID_ESTADO_SUBASTA = " +idEstado);
+                                    " WHERE ID = " +idComuna);
         this.getCon().setEsSelect(true);
         this.getCon().conectar();
-        
-        try
+                try
         {
            if(this.getCon().getDbResultSet().next())
            {
-                estadoSubasta.setIdEstadoSubasta(this.getCon().getDbResultSet().getInt("ID_ESTADO_SUBASTA"));
-                estadoSubasta.setDescripcion(this.getCon().getDbResultSet().getString("DESC_ESTADO"));
+                comuna.setIdComuna(this.getCon().getDbResultSet().getInt("ID"));
+                comuna.setNombreComuna(this.getCon().getDbResultSet().getString("NOMBRE_COMUNA"));
+                comuna.setIdProvincia(this.getCon().getDbResultSet().getInt("ID_PROVINCIA"));
            }
         }
         catch(Exception ex)
         {
-            EstadoSubasta auxEstadoSubasta = new EstadoSubasta();
-            return auxEstadoSubasta;
+            Comuna auxComuna = new Comuna();
+            return auxComuna;
         }
         
-        return estadoSubasta;
+        return comuna;
     }
 }

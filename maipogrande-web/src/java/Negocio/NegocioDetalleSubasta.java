@@ -62,12 +62,81 @@ public class NegocioDetalleSubasta {
 
     }
     
+    public DetalleSubasta buscarDetalleSubastaEmpresa(int idEmpresaTransporte, int idCabeceraSubasta)
+    {
+        DetalleSubasta detalleSubasta = new DetalleSubasta();
+        this.configurarConexion();
+        this.getCon().setCadenaSQL("SELECT * FROM " + this.getCon().getNombreTabla()+
+                                     " WHERE ID_CABECERA_SUBASTA = " + idCabeceraSubasta+
+                                     " AND ID_EMPRESA_TRANS = " + idEmpresaTransporte);
+        this.getCon().setEsSelect(true);
+        this.getCon().conectar();
+        
+        try
+        {
+           if(this.getCon().getDbResultSet().next())
+           {
+                detalleSubasta.setIdDetalleSubasta(this.getCon().getDbResultSet().getInt("ID_DETALLE_SUBASTA"));
+                detalleSubasta.setFechaEstimadaEntrega(this.getCon().getDbResultSet().getDate("FECHA_ESTIMADA_ENTREGA"));
+                detalleSubasta.setCapacidadCarga(this.getCon().getDbResultSet().getString("CAPACIDAD_CARGA"));
+                detalleSubasta.setRefrigeracion(this.getCon().getDbResultSet().getString("REFRIGERACION"));
+                detalleSubasta.setPesoMaximo(this.getCon().getDbResultSet().getString("PESO_MAX"));
+                detalleSubasta.setExtras(this.getCon().getDbResultSet().getString("EXTRAS"));
+                detalleSubasta.setPrecio(this.getCon().getDbResultSet().getInt("PRECIO"));
+                detalleSubasta.setIdCabeceraSubasta(this.getCon().getDbResultSet().getInt("ID_CABECERA_SUBASTA"));
+                detalleSubasta.setIdEmpresaTransporte(this.getCon().getDbResultSet().getInt("ID_EMPRESA_TRANS"));
+           }
+        }
+        catch(Exception ex)
+        {
+            DetalleSubasta auxDetalleSubasta = new DetalleSubasta();
+            return auxDetalleSubasta;
+        }
+        
+        return detalleSubasta;
+    }
+    
     public ArrayList<DetalleSubasta> listarDetallesSubasta(int idCabeceraSubasta) {
         ArrayList<DetalleSubasta> listaDetallesSubasta = new ArrayList<>();
         this.configurarConexion();
         this.getCon().setCadenaSQL("SELECT * FROM " +
                                        this.getCon().getNombreTabla()+
                                      " WHERE ID_CABECERA_SUBASTA = " +idCabeceraSubasta +";" );
+        this.getCon().setEsSelect(true);
+        this.getCon().conectar();
+
+        try
+        {
+           while(this.getCon().getDbResultSet().next())
+           {
+                DetalleSubasta detalleSubasta = new DetalleSubasta();
+                detalleSubasta.setIdDetalleSubasta(this.getCon().getDbResultSet().getInt("ID_DETALLE_SUBASTA"));
+                detalleSubasta.setFechaEstimadaEntrega(this.getCon().getDbResultSet().getDate("FECHA_ESTIMADA_ENTREGA"));
+                detalleSubasta.setCapacidadCarga(this.getCon().getDbResultSet().getString("CAPACIDAD_CARGA"));
+                detalleSubasta.setRefrigeracion(this.getCon().getDbResultSet().getString("REFRIGERACION"));
+                detalleSubasta.setPesoMaximo(this.getCon().getDbResultSet().getString("PESO_MAX"));
+                detalleSubasta.setExtras(this.getCon().getDbResultSet().getString("EXTRAS"));
+                detalleSubasta.setPrecio(this.getCon().getDbResultSet().getInt("PRECIO"));
+                detalleSubasta.setIdCabeceraSubasta(this.getCon().getDbResultSet().getInt("ID_CABECERA_SUBASTA"));
+                detalleSubasta.setIdEmpresaTransporte(this.getCon().getDbResultSet().getInt("ID_EMPRESA_TRANS"));
+
+                listaDetallesSubasta.add(detalleSubasta);
+           } //Fin while
+        }
+        catch(Exception ex)
+        {
+           JOptionPane.showMessageDialog(null, "Error SQL " + ex.getMessage());
+        } //Fin try cargar arraylist
+
+        return listaDetallesSubasta;
+    }
+    
+    public ArrayList<DetalleSubasta> listarDetallesSubastaEmpresa(int idEmpresaTransporte) {
+        ArrayList<DetalleSubasta> listaDetallesSubasta = new ArrayList<>();
+        this.configurarConexion();
+        this.getCon().setCadenaSQL("SELECT * FROM " +
+                                       this.getCon().getNombreTabla()+
+                                     " WHERE ID_EMPRESA_TRANS = " +idEmpresaTransporte );
         this.getCon().setEsSelect(true);
         this.getCon().conectar();
 

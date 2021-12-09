@@ -29,7 +29,7 @@
                 CabeceraSubasta cabeceraSubasta = (CabeceraSubasta)request.getAttribute("cabeceraSubasta");
                 
                 NegocioEstadoSubasta negocioEstadoSubasta = new NegocioEstadoSubasta();
-                EstadoSubasta estado = negocioEstadoSubasta.buscarEstadoProcesoVenta(cabeceraSubasta.getIdEstadoSubasta());
+                EstadoSubasta estado = negocioEstadoSubasta.buscarEstadoSubasta(cabeceraSubasta.getIdEstadoSubasta());
            
                 out.print("<p>ID: "+cabeceraSubasta.getIdCabeceraSubasta()+"</p>");
                 out.print("<p>Fecha Límite Entrega: "+cabeceraSubasta.getFechaLimiteEntrega()+"</p>");

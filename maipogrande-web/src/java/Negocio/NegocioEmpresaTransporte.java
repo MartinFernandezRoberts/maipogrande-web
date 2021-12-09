@@ -6,13 +6,13 @@
 package Negocio;
 
 import Conexion.Conexion;
-import DTO.EstadoSubasta;
+import DTO.EmpresaTransporte;
 
 /**
  *
  * @author Asus
  */
-public class NegocioEstadoSubasta {
+public class NegocioEmpresaTransporte {
     private Conexion con;
 
     /**
@@ -33,35 +33,34 @@ public class NegocioEstadoSubasta {
     {
         this.setCon(new Conexion());
         this.getCon().setNombreBaseDeDatos("jdbc:oracle:thin:@localhost:1521:XE");
-        this.getCon().setNombreTabla("ESTADO_SUBASTA");
+        this.getCon().setNombreTabla("EMPRESA_TRANSPORTE");
         this.getCon().setCadenaConexion("oracle.jdbc.driver.OracleDriver");
         this.getCon().setUsuario("maipogrande");
         this.getCon().setPass("123");
     } //Fin configurar
     
-    public EstadoSubasta buscarEstadoSubasta(int idEstado)
-    {
-        EstadoSubasta estadoSubasta = new EstadoSubasta();
+    public EmpresaTransporte buscarEmpresaTransporteUsuario(int idUsuario){
+        EmpresaTransporte empresaTransporte = new EmpresaTransporte();
         this.configurarConexion();
         this.getCon().setCadenaSQL("SELECT * FROM " + this.getCon().getNombreTabla()+
-                                     " WHERE ID_ESTADO_SUBASTA = " +idEstado);
+                                    " WHERE ID_USUARIO = " +idUsuario);
         this.getCon().setEsSelect(true);
         this.getCon().conectar();
-        
-        try
+                try
         {
            if(this.getCon().getDbResultSet().next())
            {
-                estadoSubasta.setIdEstadoSubasta(this.getCon().getDbResultSet().getInt("ID_ESTADO_SUBASTA"));
-                estadoSubasta.setDescripcion(this.getCon().getDbResultSet().getString("DESC_ESTADO"));
+                empresaTransporte.setIdEmpresaTransporte(this.getCon().getDbResultSet().getInt("ID_EMPRESA"));
+                empresaTransporte.setNombreEmpresa(this.getCon().getDbResultSet().getString("NOMBRE_EMPRESA"));
+                empresaTransporte.setIdUsuario(this.getCon().getDbResultSet().getInt("ID_USUARIO"));
            }
         }
         catch(Exception ex)
         {
-            EstadoSubasta auxEstadoSubasta = new EstadoSubasta();
-            return auxEstadoSubasta;
+            EmpresaTransporte auxEmpresaTransporte = new EmpresaTransporte();
+            return auxEmpresaTransporte;
         }
         
-        return estadoSubasta;
+        return empresaTransporte;
     }
 }

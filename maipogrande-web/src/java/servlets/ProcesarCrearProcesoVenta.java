@@ -7,15 +7,18 @@ package servlets;
 
 import DTO.CabeceraPostulacion;
 import DTO.CabeceraProcesoVenta;
+import DTO.CabeceraSubasta;
 import DTO.CarroCompras;
 import DTO.Cliente;
 import DTO.DetalleProcesoVenta;
 import DTO.ProductoCarro;
 import Negocio.NegocioCabeceraProcesoVenta;
+import Negocio.NegocioCabeceraSubasta;
 import Negocio.NegocioCliente;
 import Negocio.NegocioDetalleProcesoVenta;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -43,7 +46,11 @@ public class ProcesarCrearProcesoVenta extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try{
             
+            SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+            Date fechaLimiteEntrega = formatter.parse(request.getParameter("fechaLimiteEntrega"));
+            
             String observaciones = request.getParameter("observaciones");
+            
             Date fechaEmision = new Date();
             HttpSession session = request.getSession();
             int idUsuario = Integer.parseInt(session.getAttribute("idUsuario").toString());
@@ -77,6 +84,16 @@ public class ProcesarCrearProcesoVenta extends HttpServlet {
                 NegocioDetalleProcesoVenta negocioDetalleProcesoVenta = new NegocioDetalleProcesoVenta();
                 negocioDetalleProcesoVenta.insertarDetalleProcesoVenta(detalleProcesoVenta);
             }
+            
+            // Creacion de subasta de transporte para el proceso de venta
+            CabeceraSubasta cabeceraSubasta = new CabeceraSubasta();
+            cabeceraSubasta.setFechaLimiteEntrega(fechaLimiteEntrega);
+            cabeceraSubasta.setIdComuna(cliente.getIdComuna());
+            cabeceraSubasta.setIdCabeceraProcesoVenta(cabeceraProcesoVentaDB.getIdCabeceraVenta());
+            cabeceraSubasta.setIdEstadoSubasta(1); // Se inicia como "En Proceso"
+            
+            NegocioCabeceraSubasta negocioCabeceraSubasta = new NegocioCabeceraSubasta();
+            negocioCabeceraSubasta.insertarCabeceraSubasta(cabeceraSubasta);
             
             request.setAttribute("ingresoProcesoVentaExitoso", true);
                         

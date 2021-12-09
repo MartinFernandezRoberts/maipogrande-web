@@ -49,7 +49,7 @@ public class ProcesarPostulacionTransporte extends HttpServlet {
             int precio = Integer.parseInt(request.getParameter("precio"));
             Date fechaEstimadaEntrega = formatter.parse(request.getParameter("fechaEstimadaEntrega"));
             int idCabeceraSubasta = Integer.parseInt(request.getParameter("idCabeceraSubasta"));
-//            int idEmpresaTransporte = Integer.parseInt(request.getParameter("idEmpresaTransporte"));
+            int idEmpresaTransporte = Integer.parseInt(request.getParameter("idEmpresaTransporte"));
 
             NegocioDetalleSubasta negocioDetalleSubasta = new NegocioDetalleSubasta();
             DetalleSubasta detalleSubasta = new DetalleSubasta();
@@ -60,17 +60,12 @@ public class ProcesarPostulacionTransporte extends HttpServlet {
             detalleSubasta.setExtras(extras);
             detalleSubasta.setPrecio(precio);
             detalleSubasta.setIdCabeceraSubasta(idCabeceraSubasta);
-            detalleSubasta.setIdEmpresaTransporte(1);
+            detalleSubasta.setIdEmpresaTransporte(idEmpresaTransporte);
             
             negocioDetalleSubasta.insertarDetalleProcesoVenta(detalleSubasta);
 
-            
-            NegocioCabeceraProcesoVenta negocioCabeceraPV = new NegocioCabeceraProcesoVenta();
-            ArrayList<CabeceraProcesoVenta> listaProcesosVenta = negocioCabeceraPV.listarProcesosVenta();        
-
-            request.setAttribute("procesosVenta", listaProcesosVenta);
             request.setAttribute("postulacionExitosa", true);
-            request.getRequestDispatcher("procesos-venta.jsp").forward(request, response);
+            request.getRequestDispatcher("mis-postulaciones-transporte.jsp").forward(request, response);
             
         }catch(Exception ex){
             PrintWriter out = response.getWriter();
