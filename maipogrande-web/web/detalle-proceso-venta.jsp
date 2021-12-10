@@ -108,7 +108,7 @@
            
                         case 4: // Productor
                             out.print("<a href='/maipogrande-web/cargar-procesos-venta' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Procesos de Venta</a>");
-                            out.print("<a href='/maipogrande-web/cargar-postulaciones-productor' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Mis postulaciones</a>");
+                            out.print("<a href='/maipogrande-web/cargar-mis-postulaciones-productor' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Mis postulaciones</a>");
                             break;
                     }
                     
@@ -190,7 +190,7 @@
            <% 
                int idPerfil = Integer.parseInt(session.getAttribute("idPerfil").toString());
                
-               if(idPerfil == 3){
+               if(idPerfil == 4){
                 
                     out.print("<form class='container mx-auto bg-gray-100 p-4 mb-4' action='/maipogrande-web/procesar-postulacion-productor' method='POST'>");
                     out.print("<h2 class='container mx-auto text-xl'>Postulación</h2><br/>");

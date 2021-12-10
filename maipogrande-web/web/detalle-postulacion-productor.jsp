@@ -1,26 +1,26 @@
 <%-- 
-    Document   : mis-postulaciones-transporte
-    Created on : 09-12-2021, 14:07:20
+    Document   : detalle-postulacion-productor
+    Created on : 10-12-2021, 14:16:34
     Author     : Asus
 --%>
 
-<%@page import="DTO.DetalleSubasta"%>
-<%@page import="Negocio.NegocioDetalleSubasta"%>
-<%@page import="Negocio.NegocioCabeceraPostulacion"%>
-<%@page import="DTO.EmpresaTransporte"%>
-<%@page import="Negocio.NegocioEmpresaTransporte"%>
-<%@page import="java.util.ArrayList"%>
+<%@page import="DTO.Producto"%>
+<%@page import="Negocio.NegocioProducto"%>
 <%@page import="DTO.CabeceraPostulacion"%>
-<%@page import="DTO.Cliente"%>
+<%@page import="DTO.DetallePostulacion"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="DTO.ProductoCarro"%>
 <%@page import="DTO.CarroCompras"%>
+<%@page import="DTO.CarroCompras"%>
+<%@page import="DTO.Cliente"%>
 <%@page import="Negocio.NegocioCliente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Maipo Grande - Procesos de venta</title>
+        <title>Maipo Grande - Detalle Proceso de Venta</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     </head>
@@ -102,8 +102,7 @@
                             break;
                             
                         case 3: // Transportista
-                            out.print("<a href='/maipogrande-web/cargar-subastas-transporte' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Subastas de Transporte</a>");
-                            out.print("<a href='/maipogrande-web/cargar-mis-postulaciones' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Mis Postulaciones</a>");
+                            out.print("<a href='/maipogrande-web/cargar-subastas' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Subastas de Transporte</a>");
                             break;
            
                         case 4: // Productor
@@ -124,51 +123,57 @@
     <!-- ######### FIN MENU ######### -->
     <!-- ############################ -->
         <div>
-            <h1 class="container mx-auto mt-8 text-2xl">Mis Postulaciones de Transporte</h1>
+            <h1 class="container mx-auto mt-8 text-2xl">Postulación</h1>
         </div>
         </br>
-        <div class="container mx-auto">
+        <div class="container mx-auto bg-gray-100 p-4 mb-4">
+            <h2 class="container mx-auto text-xl">Datos</h2>
+            <br/>
             <% 
-                ArrayList<DetalleSubasta> subastasTransporte = (ArrayList<DetalleSubasta>)request.getAttribute("subastasTransporte");
-                if(subastasTransporte==null){
-                    int idUsuario = Integer.parseInt(session.getAttribute("idUsuario").toString());
+                List<DetallePostulacion> detallesPostulacion = (ArrayList<DetallePostulacion>)request.getAttribute("listaDetallesPostulacion");
+                CabeceraPostulacion cabeceraPostulacion = (CabeceraPostulacion)request.getAttribute("cabeceraPostulacion");
+                
 
-                    NegocioEmpresaTransporte negocioEmpresaTransporte = new NegocioEmpresaTransporte();
-                    EmpresaTransporte empresaTransporte = negocioEmpresaTransporte.buscarEmpresaTransporteUsuario(idUsuario);
-
-
-                    NegocioDetalleSubasta negocioDetalleSubasta = new NegocioDetalleSubasta();
-                    subastasTransporte = negocioDetalleSubasta.listarDetallesSubastaEmpresa(empresaTransporte.getIdEmpresaTransporte());        
-                }
-
-                String clasesBoton = "p-2 pl-5 pr-5 bg-green-500 text-white inline-block rounded hover:bg-green-400";
-
-                out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-3 font-bold text-gray-500'>");
-                out.print("<div class='col-span-1 text-center'>ID Subasta</div>");
-                out.print("<div class='col-span-1 text-center'>Fecha Estimada Entrega</div>");
-                out.print("<div class='col-span-1 text-center'>Ver Detalles</div>");
-                out.print("</div>");
-   
-                for(DetalleSubasta subastaTransporte : subastasTransporte)
-                {
-                    
-                    out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-3'>");
-                    out.print("<div class='col-span-1 flex items-center justify-center'>"+subastaTransporte.getIdCabeceraSubasta()+"</div>");
-                    out.print("<div class='col-span-1 flex items-center justify-center'>"+subastaTransporte.getFechaEstimadaEntrega()+"</div>");
-                    out.print("<div class='col-span-1 flex items-center justify-center'>");
-                    out.print("<a class='"+clasesBoton+"' href='/maipogrande-web/ver-postulacion-subasta?idSubastaTransporte="+subastaTransporte.getIdCabeceraSubasta()+"'>");
-                    out.print("Ver Detalles");
-                    out.print("</a>");
-                    out.print("</div>");
-                    out.print("</div>");
-                }
+                out.print("<p>ID Postulación: "+cabeceraPostulacion.getIdCabeceraPostulacion()+"</p>");
+                out.print("<p>ID Proceso de Venta "+cabeceraPostulacion.getIdCabeceraPV()+"</p>");
+                out.print("<p>Fecha Emisión: "+cabeceraPostulacion.getFechaEmision()+"</p>");
             %>
         </div>
-        
-                <% 
-            if(request.getAttribute("postulacionExitosa") != null){
-                out.print("<script>alert('Postulación ingresada con éxito.');</script> ");
-            }
-        %>
+        <div class="container mx-auto bg-gray-100 p-4 mb-4">
+           <h2 class="container mx-auto text-xl">Productos</h2>
+           <br/>
+           <% 
+                out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-6 font-bold text-gray-500'>");
+                out.print("<div class='col-span-1 text-center'>ID Producto</div>");
+                out.print("<div class='col-span-2 text-center'>Nombre</div>");
+                out.print("<div class='col-span-1 text-center'>Cantidad</div>");
+                out.print("<div class='col-span-1 text-center'>Precio Unitario</div>");
+                out.print("<div class='col-span-1 text-center'>Total</div>");
+                out.print("</div>");
+                
+                int total = 0;
+                
+                for(DetallePostulacion detallePostulacion : detallesPostulacion)
+                {
+                    NegocioProducto negocioProducto = new NegocioProducto();
+                    Producto producto = negocioProducto.buscarProducto(detallePostulacion.getIdProducto());
+                    
+                    out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-6'>");
+                    out.print("<div class='col-span-1 flex items-center justify-center'>"+producto.getIdProducto()+"</div>");
+                    out.print("<div class='col-span-2 flex items-center justify-center'>"+producto.getNombreProducto()+"</div>");
+                    out.print("<div class='col-span-1 flex items-center justify-center'>"+detallePostulacion.getCantidad()+"</div>");
+                    out.print("<div class='col-span-1 flex items-center justify-center'>"+detallePostulacion.getPrecioUnitario()+"</div>");
+                    out.print("<div class='col-span-1 flex items-center justify-center'>$"+detallePostulacion.getCantidad()*detallePostulacion.getPrecioUnitario()+"</div>");
+                    out.print("</div>");
+                    
+                    total += detallePostulacion.getCantidad()*detallePostulacion.getPrecioUnitario();
+                }
+                
+                out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-6'>");
+                out.print("<div class='col-span-5 flex items-center justify-end font-bold'>Total</div>");
+                out.print("<div class='col-span-1 flex items-center justify-center font-bold'>$"+total+"</div>");
+                out.print("</div>");
+            %>
+        </div>
     </body>
 </html>

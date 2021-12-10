@@ -100,12 +100,13 @@
                             break;
                             
                         case 3: // Transportista
-                            out.print("<a href='/maipogrande-web/cargar-subastas' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Subastas de Transporte</a>");
+                            out.print("<a href='/maipogrande-web/cargar-subastas-transporte' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Subastas de Transporte</a>");
+                            out.print("<a href='/maipogrande-web/cargar-mis-postulaciones' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Mis Postulaciones</a>");
                             break;
            
                         case 4: // Productor
                             out.print("<a href='/maipogrande-web/cargar-procesos-venta' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Procesos de Venta</a>");
-                            out.print("<a href='/maipogrande-web/cargar-postulaciones-productor' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Mis postulaciones</a>");
+                            out.print("<a href='/maipogrande-web/cargar-mis-postulaciones-productor' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Mis postulaciones</a>");
                             break;
                     }
                     
@@ -158,22 +159,10 @@
                     out.print("<a class='"+clasesBoton+"' href='/maipogrande-web/ver-proceso-venta?idProcesoVenta="+procesoVenta.getIdCabeceraVenta()+"'>");
                     out.print("Ver");
                     out.print("</a>");
-                    
-                    // SI EL USUARIO ES TRANSPORTISTA, MOSTRAR ESTE BOTON POSTULAR
-                    out.print("<a class='"+clasesBoton+" ml-2' href='/maipogrande-web/nueva-postulacion-transporte?idProcesoVenta="+procesoVenta.getIdCabeceraVenta()+"'>");
-                    out.print("Postular");
-                    out.print("</a>");
-                    
                     out.print("</div>");
                     out.print("</div>");
                 }
             %>
         </div>
-
-        <% 
-            if(request.getAttribute("postulacionExitosa") != null){
-                out.print("<script>alert('Postulación ingresada con éxito.');</script> ");
-            }
-        %>
     </body>
 </html>

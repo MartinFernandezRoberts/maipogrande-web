@@ -7,6 +7,8 @@ package Negocio;
 
 import Conexion.Conexion;
 import DTO.DetallePostulacion;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -53,5 +55,36 @@ public class NegocioDetallePostulacion {
         };
 
         this.getCon().ejecutarProcedimiento("SP_INGRESAR_DET_POSTULACION", parametros, tipos, valores);
+    }
+    
+    public ArrayList<DetallePostulacion> listarDetallesPostulacion(int idCabeceraPostulacion) {
+        ArrayList<DetallePostulacion> listaDetallesPostulacion = new ArrayList<>();
+        this.configurarConexion();
+        this.getCon().setCadenaSQL("SELECT * FROM " +
+                                       this.getCon().getNombreTabla()+
+                                     " WHERE ID_CABECERA_POSTULACION = " +idCabeceraPostulacion );
+        this.getCon().setEsSelect(true);
+        this.getCon().conectar();
+
+        try
+        {
+           while(this.getCon().getDbResultSet().next())
+           {
+                DetallePostulacion detallePostulacion = new DetallePostulacion();
+                detallePostulacion.setIdDetallePostulacion(this.getCon().getDbResultSet().getInt("ID_DETALLE_POSTULACION"));
+                detallePostulacion.setIdCabeceraPostulacion(this.getCon().getDbResultSet().getInt("ID_CABECERA_POSTULACION"));
+                detallePostulacion.setIdProducto(this.getCon().getDbResultSet().getInt("ID_PRODUCTO"));
+                detallePostulacion.setCantidad(this.getCon().getDbResultSet().getInt("CANTIDAD"));
+                detallePostulacion.setPrecioUnitario(this.getCon().getDbResultSet().getInt("PRECIO_UNITARIO"));
+
+                listaDetallesPostulacion.add(detallePostulacion);
+           } //Fin while
+        }
+        catch(Exception ex)
+        {
+           JOptionPane.showMessageDialog(null, "Error SQL " + ex.getMessage());
+        } //Fin try cargar arraylist
+
+        return listaDetallesPostulacion;
     }
 }
