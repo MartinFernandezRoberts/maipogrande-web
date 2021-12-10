@@ -7,6 +7,8 @@ package Negocio;
 
 import Conexion.Conexion;
 import DTO.CabeceraPostulacion;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -54,6 +56,34 @@ public class NegocioCabeceraPostulacion {
         this.getCon().ejecutarProcedimiento("SP_INGRESAR_CAB_POSTULACION", parametros, tipos, valores);
     }
     
+    public CabeceraPostulacion buscarCabeceraPostulacion(int idCabeceraPostulacion)
+    {
+        CabeceraPostulacion cabeceraPostulacion = new CabeceraPostulacion();
+        this.configurarConexion();
+        this.getCon().setCadenaSQL("SELECT * FROM " + this.getCon().getNombreTabla()+
+                                     " WHERE ID_CABECERA_POSTULACION = " +idCabeceraPostulacion);
+        this.getCon().setEsSelect(true);
+        this.getCon().conectar();
+        
+        try
+        {
+           if(this.getCon().getDbResultSet().next())
+           {
+                cabeceraPostulacion.setIdCabeceraPostulacion(this.getCon().getDbResultSet().getInt("ID_CABECERA_POSTULACION"));
+                cabeceraPostulacion.setFechaEmision(this.getCon().getDbResultSet().getDate("FECHA_EMISION"));
+                cabeceraPostulacion.setRutProductor(this.getCon().getDbResultSet().getInt("RUT_PRODUCTOR"));
+                cabeceraPostulacion.setIdCabeceraPV(this.getCon().getDbResultSet().getInt("CABECERA_PV"));
+           }
+        }
+        catch(Exception ex)
+        {
+            CabeceraPostulacion auxCabeceraPostulacion = new CabeceraPostulacion();
+            return auxCabeceraPostulacion;
+        }
+        
+        return cabeceraPostulacion;
+    }
+    
     public CabeceraPostulacion buscarUltimaInsercion()
     {
         CabeceraPostulacion cabeceraPostulacion = new CabeceraPostulacion();
@@ -80,5 +110,35 @@ public class NegocioCabeceraPostulacion {
         }
         
         return cabeceraPostulacion;
+    }
+    
+    public ArrayList<CabeceraPostulacion> listarCabeceraPostulacionProductor(int rutProductor) {
+        ArrayList<CabeceraPostulacion> listaCabecerasPostulacion = new ArrayList<>();
+        this.configurarConexion();
+        this.getCon().setCadenaSQL("SELECT * FROM " +
+                                       this.getCon().getNombreTabla() + 
+                                    " WHERE RUT_PRODUCTOR="+rutProductor);
+        this.getCon().setEsSelect(true);
+        this.getCon().conectar();
+
+        try
+        {
+           while(this.getCon().getDbResultSet().next())
+           {
+                CabeceraPostulacion cabeceraPostulacion = new CabeceraPostulacion();
+                cabeceraPostulacion.setIdCabeceraPostulacion(this.getCon().getDbResultSet().getInt("ID_CABECERA_POSTULACION"));
+                cabeceraPostulacion.setFechaEmision(this.getCon().getDbResultSet().getDate("FECHA_EMISION"));
+                cabeceraPostulacion.setRutProductor(this.getCon().getDbResultSet().getInt("RUT_PRODUCTOR"));
+                cabeceraPostulacion.setIdCabeceraPV(this.getCon().getDbResultSet().getInt("CABECERA_PV"));
+
+                listaCabecerasPostulacion.add(cabeceraPostulacion);
+           } //Fin while
+        }
+        catch(Exception ex)
+        {
+           JOptionPane.showMessageDialog(null, "Error SQL " + ex.getMessage());
+        } //Fin try cargar arraylist
+
+        return listaCabecerasPostulacion;
     }
 }

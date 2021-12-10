@@ -1,19 +1,17 @@
 <%-- 
-    Document   : mis-postulaciones-transporte
-    Created on : 09-12-2021, 14:07:20
+    Document   : mis-postulaciones-productor
+    Created on : 09-12-2021, 19:50:32
     Author     : Asus
 --%>
 
-<%@page import="DTO.DetalleSubasta"%>
-<%@page import="Negocio.NegocioDetalleSubasta"%>
 <%@page import="Negocio.NegocioCabeceraPostulacion"%>
-<%@page import="DTO.EmpresaTransporte"%>
-<%@page import="Negocio.NegocioEmpresaTransporte"%>
-<%@page import="java.util.ArrayList"%>
+<%@page import="DTO.Productor"%>
+<%@page import="Negocio.NegocioProductor"%>
 <%@page import="DTO.CabeceraPostulacion"%>
-<%@page import="DTO.Cliente"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="DTO.ProductoCarro"%>
 <%@page import="DTO.CarroCompras"%>
+<%@page import="DTO.Cliente"%>
 <%@page import="Negocio.NegocioCliente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -102,8 +100,7 @@
                             break;
                             
                         case 3: // Transportista
-                            out.print("<a href='/maipogrande-web/cargar-subastas-transporte' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Subastas de Transporte</a>");
-                            out.print("<a href='/maipogrande-web/cargar-mis-postulaciones' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Mis Postulaciones</a>");
+                            out.print("<a href='/maipogrande-web/cargar-subastas' class='h-10 leading-10 border-b-2 border-dotted md:border-none'>Subastas de Transporte</a>");
                             break;
            
                         case 4: // Productor
@@ -124,39 +121,41 @@
     <!-- ######### FIN MENU ######### -->
     <!-- ############################ -->
         <div>
-            <h1 class="container mx-auto mt-8 text-2xl">Mis Postulaciones de Transporte</h1>
+            <h1 class="container mx-auto mt-8 text-2xl">Procesos de venta</h1>
         </div>
         </br>
         <div class="container mx-auto">
             <% 
-                ArrayList<DetalleSubasta> subastasTransporte = (ArrayList<DetalleSubasta>)request.getAttribute("subastasTransporte");
-                if(subastasTransporte==null){
+                ArrayList<CabeceraPostulacion> postulacionesProductor = (ArrayList<CabeceraPostulacion>)request.getAttribute("postulacionesProductor");
+                if(postulacionesProductor==null){
                     int idUsuario = Integer.parseInt(session.getAttribute("idUsuario").toString());
 
-                    NegocioEmpresaTransporte negocioEmpresaTransporte = new NegocioEmpresaTransporte();
-                    EmpresaTransporte empresaTransporte = negocioEmpresaTransporte.buscarEmpresaTransporteUsuario(idUsuario);
+                    NegocioProductor negocioProductor = new NegocioProductor();
+                    Productor productor = negocioProductor.buscarProductorUsuario(idUsuario);
 
+                    NegocioCabeceraPostulacion negocioCabeceraPostulacion = new NegocioCabeceraPostulacion();
+                    postulacionesProductor = negocioCabeceraPostulacion.listarCabeceraPostulacionProductor(productor.getRutProductor());        
 
-                    NegocioDetalleSubasta negocioDetalleSubasta = new NegocioDetalleSubasta();
-                    subastasTransporte = negocioDetalleSubasta.listarDetallesSubastaEmpresa(empresaTransporte.getIdEmpresaTransporte());        
                 }
 
                 String clasesBoton = "p-2 pl-5 pr-5 bg-green-500 text-white inline-block rounded hover:bg-green-400";
 
-                out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-3 font-bold text-gray-500'>");
-                out.print("<div class='col-span-1 text-center'>ID Subasta</div>");
-                out.print("<div class='col-span-1 text-center'>Fecha Estimada Entrega</div>");
+                out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-4 font-bold text-gray-500'>");
+                out.print("<div class='col-span-1 text-center'>ID Postulación</div>");
+                out.print("<div class='col-span-1 text-center'>Fecha Emisión</div>");
+                out.print("<div class='col-span-1 text-center'>Proceso de Venta</div>");
                 out.print("<div class='col-span-1 text-center'>Ver Detalles</div>");
                 out.print("</div>");
    
-                for(DetalleSubasta subastaTransporte : subastasTransporte)
+                for(CabeceraPostulacion postulacionProductor : postulacionesProductor)
                 {
-                    
-                    out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-3'>");
-                    out.print("<div class='col-span-1 flex items-center justify-center'>"+subastaTransporte.getIdCabeceraSubasta()+"</div>");
-                    out.print("<div class='col-span-1 flex items-center justify-center'>"+subastaTransporte.getFechaEstimadaEntrega()+"</div>");
+           
+                    out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-4'>");
+                    out.print("<div class='col-span-1 flex items-center justify-center'>"+postulacionProductor.getIdCabeceraPostulacion()+"</div>");
+                    out.print("<div class='col-span-1 flex items-center justify-center'>"+postulacionProductor.getFechaEmision()+"</div>");
+                    out.print("<div class='col-span-1 flex items-center justify-center'>"+postulacionProductor.getIdCabeceraPV()+"</div>");
                     out.print("<div class='col-span-1 flex items-center justify-center'>");
-                    out.print("<a class='"+clasesBoton+"' href='/maipogrande-web/ver-postulacion-subasta?idSubastaTransporte="+subastaTransporte.getIdCabeceraSubasta()+"'>");
+                    out.print("<a class='"+clasesBoton+"' href='/maipogrande-web/ver-postulacion-productor?idPostulacion="+postulacionProductor.getIdCabeceraPostulacion()+"'>");
                     out.print("Ver Detalles");
                     out.print("</a>");
                     out.print("</div>");
@@ -164,11 +163,5 @@
                 }
             %>
         </div>
-        
-                <% 
-            if(request.getAttribute("postulacionExitosa") != null){
-                out.print("<script>alert('Postulación ingresada con éxito.');</script> ");
-            }
-        %>
     </body>
 </html>

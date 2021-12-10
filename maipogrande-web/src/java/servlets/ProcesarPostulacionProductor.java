@@ -8,10 +8,12 @@ package servlets;
 import DTO.CabeceraPostulacion;
 import DTO.CabeceraProcesoVenta;
 import DTO.DetallePostulacion;
+import DTO.Productor;
 import Negocio.NegocioCabeceraPostulacion;
 import Negocio.NegocioCabeceraProcesoVenta;
 import Negocio.NegocioDetalleOrdenCompra;
 import Negocio.NegocioDetallePostulacion;
+import Negocio.NegocioProductor;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -23,6 +25,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -45,8 +48,14 @@ public class ProcesarPostulacionProductor extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         try{
+            HttpSession session = request.getSession();
+            int idUsuario = Integer.parseInt(session.getAttribute("idUsuario").toString());
+
+            NegocioProductor negocioProductor = new NegocioProductor();
+            Productor productor = negocioProductor.buscarProductorUsuario(idUsuario);
+
             int cantidadProductos = Integer.parseInt(request.getParameter("cantidadProductos"));
-            int rutProductor = 123; //Obtener rut productor
+            int rutProductor = productor.getRutProductor();
             int idCabeceraPV = Integer.parseInt(request.getParameter("IdCabeceraVenta"));
 
             Date fechaEmision = new Date();
@@ -80,12 +89,12 @@ public class ProcesarPostulacionProductor extends HttpServlet {
                 }
             }
             
-            NegocioCabeceraProcesoVenta negocioCabeceraPV = new NegocioCabeceraProcesoVenta();
-            ArrayList<CabeceraProcesoVenta> listaProcesosVenta = negocioCabeceraPV.listarProcesosVenta();        
-        
-            request.setAttribute("procesosVenta", listaProcesosVenta);
+            ArrayList<CabeceraPostulacion> listaPostulaciones = negocioCabeceraPostulacion.listarCabeceraPostulacionProductor(productor.getRutProductor());        
+
+            request.setAttribute("postulacionesProductor", listaPostulaciones);
+
             request.setAttribute("postulacionExitosa", true);
-            request.getRequestDispatcher("procesos-venta.jsp").forward(request, response);
+            request.getRequestDispatcher("mis-postulaciones-productor.jsp").forward(request, response);
             
         }catch(Exception ex){
             PrintWriter out = response.getWriter();

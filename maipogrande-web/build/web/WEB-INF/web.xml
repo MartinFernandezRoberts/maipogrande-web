@@ -60,6 +60,14 @@
         <servlet-name>VerPostulacionSubasta</servlet-name>
         <servlet-class>servlets.VerPostulacionSubasta</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CargarMisPostulacionesProductor</servlet-name>
+        <servlet-class>servlets.CargarMisPostulacionesProductor</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VerPostulacionProductor</servlet-name>
+        <servlet-class>servlets.VerPostulacionProductor</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Procesar</servlet-name>
         <url-pattern>/procesar</url-pattern>
@@ -119,6 +127,14 @@
     <servlet-mapping>
         <servlet-name>VerPostulacionSubasta</servlet-name>
         <url-pattern>/ver-postulacion-subasta</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CargarMisPostulacionesProductor</servlet-name>
+        <url-pattern>/cargar-mis-postulaciones-productor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VerPostulacionProductor</servlet-name>
+        <url-pattern>/ver-postulacion-productor</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
