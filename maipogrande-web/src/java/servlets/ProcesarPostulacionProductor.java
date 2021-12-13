@@ -64,6 +64,7 @@ public class ProcesarPostulacionProductor extends HttpServlet {
             cabeceraPostulacion.setIdCabeceraPV(idCabeceraPV);
             cabeceraPostulacion.setRutProductor(rutProductor);
             cabeceraPostulacion.setFechaEmision(fechaEmision);
+            cabeceraPostulacion.setIdEstadoPostulacion(1);
 
             NegocioCabeceraPostulacion negocioCabeceraPostulacion = new NegocioCabeceraPostulacion();
             negocioCabeceraPostulacion.insertarCabeceraPostulacion(cabeceraPostulacion);

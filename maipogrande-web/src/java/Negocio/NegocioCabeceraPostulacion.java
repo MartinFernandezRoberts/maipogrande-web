@@ -45,12 +45,13 @@ public class NegocioCabeceraPostulacion {
     {
         this.configurarConexion();
         
-        String[] parametros = {"FECHA_EMISION", "RUT_PRODUCTOR", "CABECERA_PV"};
-        String[] tipos = {"date","int","int"};
+        String[] parametros = {"FECHA_EMISION", "RUT_PRODUCTOR", "CABECERA_PV", "ID_ESTADO_POSTULACION"};
+        String[] tipos = {"date","int","int","int"};
         Object[] valores = {
             cabeceraPostulacion.getFechaEmision(),
             cabeceraPostulacion.getRutProductor(),
-            cabeceraPostulacion.getIdCabeceraPV()
+            cabeceraPostulacion.getIdCabeceraPV(),
+            cabeceraPostulacion.getIdEstadoPostulacion()
         };
 
         this.getCon().ejecutarProcedimiento("SP_INGRESAR_CAB_POSTULACION", parametros, tipos, valores);
@@ -73,6 +74,7 @@ public class NegocioCabeceraPostulacion {
                 cabeceraPostulacion.setFechaEmision(this.getCon().getDbResultSet().getDate("FECHA_EMISION"));
                 cabeceraPostulacion.setRutProductor(this.getCon().getDbResultSet().getInt("RUT_PRODUCTOR"));
                 cabeceraPostulacion.setIdCabeceraPV(this.getCon().getDbResultSet().getInt("CABECERA_PV"));
+                cabeceraPostulacion.setIdEstadoPostulacion(this.getCon().getDbResultSet().getInt("ID_ESTADO_POSTULACION"));
            }
         }
         catch(Exception ex)
@@ -101,6 +103,7 @@ public class NegocioCabeceraPostulacion {
                 cabeceraPostulacion.setFechaEmision(this.getCon().getDbResultSet().getDate("FECHA_EMISION"));
                 cabeceraPostulacion.setRutProductor(this.getCon().getDbResultSet().getInt("RUT_PRODUCTOR"));
                 cabeceraPostulacion.setIdCabeceraPV(this.getCon().getDbResultSet().getInt("CABECERA_PV"));
+                cabeceraPostulacion.setIdEstadoPostulacion(this.getCon().getDbResultSet().getInt("ID_ESTADO_POSTULACION"));
            }
         }
         catch(Exception ex)
@@ -130,6 +133,7 @@ public class NegocioCabeceraPostulacion {
                 cabeceraPostulacion.setFechaEmision(this.getCon().getDbResultSet().getDate("FECHA_EMISION"));
                 cabeceraPostulacion.setRutProductor(this.getCon().getDbResultSet().getInt("RUT_PRODUCTOR"));
                 cabeceraPostulacion.setIdCabeceraPV(this.getCon().getDbResultSet().getInt("CABECERA_PV"));
+                cabeceraPostulacion.setIdEstadoPostulacion(this.getCon().getDbResultSet().getInt("ID_ESTADO_POSTULACION"));
 
                 listaCabecerasPostulacion.add(cabeceraPostulacion);
            } //Fin while

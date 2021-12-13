@@ -46,7 +46,7 @@ public class NegocioProductor {
                                     " WHERE ID_USUARIO = " +idUsuario);
         this.getCon().setEsSelect(true);
         this.getCon().conectar();
-                try
+        try
         {
            if(this.getCon().getDbResultSet().next())
            {
