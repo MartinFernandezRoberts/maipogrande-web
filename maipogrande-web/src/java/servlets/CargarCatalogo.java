@@ -5,7 +5,11 @@
  */
 package servlets;
 
+import DTO.Cliente;
+import DTO.DetalleSobrante;
 import DTO.Producto;
+import Negocio.NegocioCliente;
+import Negocio.NegocioDetalleSobrante;
 import Negocio.NegocioProducto;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -34,8 +39,35 @@ public class CargarCatalogo extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        NegocioProducto negocioProducto = new NegocioProducto();
-        ArrayList<Producto> listaProductos = negocioProducto.listarProductos();        
+        HttpSession session = request.getSession();
+        int idUsuario = Integer.parseInt(session.getAttribute("idUsuario").toString());
+                    
+        NegocioCliente negocioCliente = new NegocioCliente();
+        Cliente cliente = negocioCliente.buscarClienteUsuario(idUsuario);
+        
+        ArrayList<Producto> listaProductos = null;
+        
+        if(cliente.getIdTipo() == 2){
+            NegocioDetalleSobrante negocioDetalleSobrante = new NegocioDetalleSobrante();
+            ArrayList<DetalleSobrante> listaSobrantes = negocioDetalleSobrante.listarDetallesSobrante();
+            
+            for(DetalleSobrante sobrante : listaSobrantes){
+                NegocioProducto negocioProducto = new NegocioProducto();
+                Producto producto = negocioProducto.buscarProducto(sobrante.getIdProducto());
+                
+                Boolean productoExiste = false;
+                for(Producto prod : listaProductos) {
+                    if(prod.getIdProducto()==producto.getIdProducto()) productoExiste = true;
+                }
+                
+                if (productoExiste == false) listaProductos.add(producto);
+            }
+            
+        }else{
+            NegocioProducto negocioProducto = new NegocioProducto();
+            listaProductos = negocioProducto.listarProductos();  
+            
+        }
         
         request.setAttribute("productos", listaProductos);
         request.getRequestDispatcher("catalogo.jsp").forward(request, response);

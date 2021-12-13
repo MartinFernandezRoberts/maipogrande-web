@@ -167,31 +167,37 @@
         <div class="container mx-auto">
             <% 
                 List<Producto> productos = (ArrayList<Producto>)request.getAttribute("productos");
-
-                String clasesBoton = "p-2 pl-5 pr-5 bg-green-500 text-white inline-block rounded hover:bg-green-400";
-
-                out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-5 font-bold text-gray-500'>");
-                out.print("<div class='col-span-1 text-center'>ID</div>");
-                out.print("<div class='col-span-1 text-center'>Nombre</div>");
-                out.print("<div class='col-span-1 text-center'>Precio</div>");
-                out.print("<div class='col-span-1 text-center'>Cantidad</div>");
-                out.print("<div class='col-span-1 text-center'>Agregar al Carro</div>");
-                out.print("</div>");
-   
-                for(Producto producto : productos)
-                {           
-                    out.print("<form class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-5' action='/maipogrande-web/procesar-agregar-al-carro' method='POST'>");
-                    out.print("<div class='col-span-1 flex items-center justify-center'>"+producto.getIdProducto()+"</div>");
-                    out.print("<div class='col-span-1 flex items-center justify-center'>"+producto.getNombreProducto()+"</div>");
-                    out.print("<div class='col-span-1 flex items-center justify-center'>$"+producto.getPrecio()+"</div>");
-                    out.print("<div class='col-span-1 flex items-center justify-center'>");
-                    out.print("<input type='number' name='cantidad' required class='border-2 border-gray-300 hover:border-gray-400'/>");
+                
+                if(productos == null || productos.size() == 0){
+                    out.print("<div class='p-4 mb-2 rounded bg-gray-100 font-bold text-gray-500'>");
+                    out.print("No hay productos disponibles para ventas internas.");
                     out.print("</div>");
-                    out.print("<div class='col-span-1 flex items-center justify-center'>");
-                    out.print("<input type='submit' value='Agregar al carro' class='"+clasesBoton+"'>");
+                }else{
+                    String clasesBoton = "p-2 pl-5 pr-5 bg-green-500 text-white inline-block rounded hover:bg-green-400";
+
+                    out.print("<div class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-5 font-bold text-gray-500'>");
+                    out.print("<div class='col-span-1 text-center'>ID</div>");
+                    out.print("<div class='col-span-1 text-center'>Nombre</div>");
+                    out.print("<div class='col-span-1 text-center'>Precio</div>");
+                    out.print("<div class='col-span-1 text-center'>Cantidad</div>");
+                    out.print("<div class='col-span-1 text-center'>Agregar al Carro</div>");
                     out.print("</div>");
-                    out.print("<input type='hidden' name='idProducto' value='"+producto.getIdProducto()+"' />");
-                    out.print("</form>");
+
+                    for(Producto producto : productos)
+                    {           
+                        out.print("<form class='p-4 mb-2 rounded bg-gray-100 grid grid-cols-5' action='/maipogrande-web/procesar-agregar-al-carro' method='POST'>");
+                        out.print("<div class='col-span-1 flex items-center justify-center'>"+producto.getIdProducto()+"</div>");
+                        out.print("<div class='col-span-1 flex items-center justify-center'>"+producto.getNombreProducto()+"</div>");
+                        out.print("<div class='col-span-1 flex items-center justify-center'>$"+producto.getPrecio()+"</div>");
+                        out.print("<div class='col-span-1 flex items-center justify-center'>");
+                        out.print("<input type='number' name='cantidad' required class='border-2 border-gray-300 hover:border-gray-400'/>");
+                        out.print("</div>");
+                        out.print("<div class='col-span-1 flex items-center justify-center'>");
+                        out.print("<input type='submit' value='Agregar al carro' class='"+clasesBoton+"'>");
+                        out.print("</div>");
+                        out.print("<input type='hidden' name='idProducto' value='"+producto.getIdProducto()+"' />");
+                        out.print("</form>");
+                    }
                 }
             %>
         </div>

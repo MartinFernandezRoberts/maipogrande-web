@@ -12,11 +12,27 @@ import java.util.Date;
  * @author Asus
  */
 public class CabeceraPostulacion {
+
+
     private int idCabeceraPostulacion;
     private int rutProductor;
     private Date fechaEmision;
     private int idCabeceraPV;
+    private int idEstadoPostulacion;
 
+        /**
+     * @return the idEstadoPostulacion
+     */
+    public int getIdEstadoPostulacion() {
+        return idEstadoPostulacion;
+    }
+
+    /**
+     * @param idEstadoPostulacion the idEstadoPostulacion to set
+     */
+    public void setIdEstadoPostulacion(int idEstadoPostulacion) {
+        this.idEstadoPostulacion = idEstadoPostulacion;
+    }
     /**
      * @return the idCabeceraPostulacion
      */
