@@ -46,7 +46,7 @@ public class ProcesarCrearProcesoVenta extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try{
             
-            SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
             Date fechaLimiteEntrega = formatter.parse(request.getParameter("fechaLimiteEntrega"));
             
             String observaciones = request.getParameter("observaciones");
@@ -63,6 +63,7 @@ public class ProcesarCrearProcesoVenta extends HttpServlet {
             cabeceraProcesoVenta.setObservaciones(observaciones);
             cabeceraProcesoVenta.setRutCliente(cliente.getRut());
             cabeceraProcesoVenta.setIdEstado(1);
+            cabeceraProcesoVenta.setIdEmpresaTransporte(1);
             
             NegocioCabeceraProcesoVenta negocioCabeceraPV = new NegocioCabeceraProcesoVenta();
             negocioCabeceraPV.insertarCabeceraProcesoVenta(cabeceraProcesoVenta);

@@ -4,6 +4,7 @@
     Author     : Asus
 --%>
 
+<%@page import="java.util.Date"%>
 <%@page import="DTO.DetalleSubasta"%>
 <%@page import="DTO.EmpresaTransporte"%>
 <%@page import="Negocio.NegocioEmpresaTransporte"%>

@@ -39,7 +39,7 @@ public class ProcesarPostulacionTransporte extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         
         try{
             String capacidadCarga = request.getParameter("capacidadCarga");
@@ -47,7 +47,8 @@ public class ProcesarPostulacionTransporte extends HttpServlet {
             String pesoMaximo = request.getParameter("pesoMaximo");
             String extras = request.getParameter("extras");
             int precio = Integer.parseInt(request.getParameter("precio"));
-            Date fechaEstimadaEntrega = formatter.parse(request.getParameter("fechaEstimadaEntrega"));
+            String fecha = request.getParameter("fechaEstimadaEntrega");
+            Date fechaEstimadaEntrega = formatter.parse(fecha);
             int idCabeceraSubasta = Integer.parseInt(request.getParameter("idCabeceraSubasta"));
             int idEmpresaTransporte = Integer.parseInt(request.getParameter("idEmpresaTransporte"));
 
